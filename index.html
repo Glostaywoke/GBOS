@@ -2,1393 +2,1206 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>GBOS ROM Patcher v1.0 :: EverDrive GB</title>
+<title>GBOS ROM Patcher v2.0 :: EverDrive GB</title>
 <style type="text/css">
-/* ===== RESET & BASE ===== */
-* { margin: 0; padding: 0; }
-
-body {
-  font-family: Verdana, Arial, sans-serif;
-  font-size: 12px;
-  background-color: #2a3a5a;
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4z8BQDwQMjIyM/xkYGAAHhAEBsHqBkgAAAABJRU5ErkJggg==");
-  color: #000000;
-}
-
-/* ===== PAGE WRAPPER ===== */
-#wrapper {
-  width: 760px;
-  margin: 8px auto;
-}
-
-/* ===== HEADER TABLE ===== */
-.header-table {
-  width: 100%;
-  border: 0;
-  cellspacing: 0;
-  cellpadding: 0;
-  margin-bottom: 6px;
-}
-
-.site-header {
-  background-color: #0a1628;
-  border: 3px outset #6688bb;
-  padding: 10px 14px 8px 14px;
-  text-align: center;
-}
-.site-title {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 22px;
-  font-weight: bold;
-  color: #ffcc00;
-  text-shadow: none;
-  letter-spacing: 2px;
-  display: block;
-}
-.site-sub {
-  font-family: Verdana, sans-serif;
-  font-size: 10px;
-  color: #88aacc;
-  margin-top: 4px;
-  display: block;
-}
-.site-version {
-  font-family: "Courier New", monospace;
-  font-size: 10px;
-  color: #44aa44;
-  margin-top: 2px;
-  display: block;
-}
-
-/* ===== NAV BAR ===== */
-.navbar {
-  background-color: #1a2a4a;
-  border: 2px outset #4466aa;
-  padding: 4px 8px;
-  margin-bottom: 6px;
-  font-size: 11px;
-}
-.navbar a {
-  color: #ffcc00;
-  text-decoration: none;
-  margin-right: 12px;
-  font-weight: bold;
-}
-.navbar a:hover { color: #ffffff; text-decoration: underline; }
-.navbar-sep { color: #4466aa; margin-right: 12px; }
-
-/* ===== MAIN CONTENT AREA ===== */
-.content-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.sidebar-cell {
-  width: 160px;
-  vertical-align: top;
-  padding-right: 6px;
-}
-.main-cell {
-  vertical-align: top;
-}
-
-/* ===== SIDEBAR ===== */
-.sidebar-box {
-  background-color: #dde8f8;
-  border: 2px outset #aabbdd;
-  margin-bottom: 6px;
-}
-.sidebar-title {
-  background-color: #1a3a6a;
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: bold;
-  padding: 3px 6px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-bottom: 2px inset #aabbdd;
-}
-.sidebar-body { padding: 6px; }
-.sidebar-body p {
-  font-size: 11px;
-  color: #223355;
-  margin-bottom: 5px;
-  line-height: 1.5;
-}
-.sidebar-link {
-  display: block;
-  font-size: 11px;
-  color: #0000cc;
-  text-decoration: underline;
-  margin-bottom: 3px;
-}
-.sidebar-link:hover { color: #cc0000; }
-.sidebar-hr {
-  border: 0;
-  border-top: 1px solid #99aacc;
-  margin: 5px 0;
-}
-
-/* ===== MAIN PANEL ===== */
-.panel {
-  background-color: #eef3fc;
-  border: 3px outset #aabbdd;
-  margin-bottom: 6px;
-}
-.panel-title {
-  background-color: #1a3a6a;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 4px 8px;
-  border-bottom: 2px inset #aabbdd;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-.panel-title span {
-  font-family: "Courier New", monospace;
-  font-size: 10px;
-  color: #88bbdd;
-  font-weight: normal;
-  text-transform: none;
-  letter-spacing: 0;
-  float: right;
-  margin-top: 1px;
-}
-.panel-body { padding: 8px 10px; }
-
-/* ===== ROM INFO BAR ===== */
-.rominfo {
-  background-color: #0a1628;
-  border: 2px inset #334466;
-  padding: 6px 10px;
-  margin-bottom: 8px;
-  font-family: "Courier New", monospace;
-  font-size: 11px;
-  color: #88ccff;
-  display: none;
-}
-.rominfo-label { color: #4488aa; }
-.rominfo-val   { color: #44ff88; margin-right: 18px; }
-.rominfo-reload {
-  float: right;
-  font-family: Verdana, sans-serif;
-  font-size: 10px;
-  color: #ffcc00;
-  cursor: pointer;
-  text-decoration: underline;
-  background: none;
-  border: none;
-  padding: 0;
-}
-.rominfo-reload:hover { color: #ffffff; }
-
-/* ===== DROP ZONE ===== */
-.dropzone {
-  background-color: #d0ddf0;
-  border: 2px dashed #5577aa;
-  padding: 28px 16px;
-  text-align: center;
-  cursor: pointer;
-  margin-bottom: 8px;
-}
-.dropzone:hover, .dropzone.drag {
-  background-color: #c0ccee;
-  border-color: #2244aa;
-}
-.dropzone-title {
-  font-size: 13px;
-  font-weight: bold;
-  color: #112266;
-  margin-bottom: 4px;
-}
-.dropzone-sub { font-size: 11px; color: #445588; }
-
-/* ===== TABS ===== */
-.tab-bar {
-  border-bottom: 2px solid #5577aa;
-  margin-bottom: 0;
-  padding-left: 2px;
-  background: transparent;
-  line-height: 1;
-}
-.tab-btn {
-  font-family: Verdana, sans-serif;
-  font-size: 11px;
-  font-weight: bold;
-  padding: 4px 10px;
-  background-color: #c8d8f0;
-  border: 2px outset #aabbdd;
-  border-bottom: none;
-  cursor: pointer;
-  color: #112266;
-  margin-right: 2px;
-  position: relative;
-  top: 2px;
-}
-.tab-btn:hover { background-color: #b8c8e8; }
-.tab-btn.active {
-  background-color: #eef3fc;
-  border-bottom: 2px solid #eef3fc;
-  color: #000066;
-  z-index: 1;
-}
-.tab-panel { display: none; padding: 10px 0 4px 0; }
-.tab-panel.active { display: block; }
-
-/* ===== SECTION HEADERS ===== */
-.sec-hr {
-  border: 0;
-  border-top: 2px solid #5577aa;
-  border-bottom: 1px solid #aabbdd;
-  margin: 12px 0 8px 0;
-}
-.sec-head {
-  font-size: 11px;
-  font-weight: bold;
-  color: #001166;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-  margin-top: 10px;
-}
-.sec-head:first-child { margin-top: 0; }
-
-/* ===== FIELD ROWS ===== */
-.field-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 4px;
-}
-.field-table td {
-  padding: 2px 4px;
-  vertical-align: middle;
-}
-.field-label {
-  font-size: 11px;
-  color: #334466;
-  white-space: nowrap;
-  width: 175px;
-}
-.field-input {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 12px;
-  padding: 2px 4px;
-  background-color: #ffffff;
-  border: 2px inset #9aabcc;
-  color: #000066;
-  width: 100%;
-}
-.field-input:focus {
-  background-color: #fffff0;
-  outline: none;
-  border-color: #2244aa;
-}
-.field-input.warn-field { background-color: #fff8e8; }
-.field-addr {
-  font-family: "Courier New", monospace;
-  font-size: 10px;
-  color: #8899bb;
-  white-space: nowrap;
-  width: 52px;
-  text-align: right;
-}
-.field-rem {
-  font-family: "Courier New", monospace;
-  font-size: 10px;
-  color: #8899bb;
-  width: 22px;
-  text-align: right;
-  white-space: nowrap;
-}
-.field-rem.low  { color: #cc7700; font-weight: bold; }
-.field-rem.zero { color: #cc0000; font-weight: bold; }
-
-/* ===== TOGGLE CHECKBOX ===== */
-.toggle-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 8px;
-  font-size: 11px;
-  color: #223355;
-}
-.toggle-row input[type=checkbox] { margin-top: 2px; }
-.toggle-sub { font-size: 10px; color: #6677aa; margin-top: 1px; display: block; }
-
-/* ===== COLOR TAB ===== */
-.color-table { width: 100%; border-collapse: collapse; }
-.color-table td { padding: 3px 4px; vertical-align: middle; }
-
-.color-picker-wrap {
-  display: inline-block;
-  border: 2px inset #9aabcc;
-  padding: 1px;
-  background: #fff;
-  vertical-align: middle;
-}
-.color-picker {
-  width: 34px;
-  height: 26px;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  display: block;
-}
-.color-hex-inp {
-  font-family: "Courier New", monospace;
-  font-size: 12px;
-  width: 70px;
-  padding: 2px 4px;
-  background: #fff;
-  border: 2px inset #9aabcc;
-  color: #000066;
-}
-.color-hex-inp:focus { outline: none; background: #fffff0; }
-.color-name-td { font-size: 11px; color: #334466; font-weight: bold; }
-.color-desc-td { font-size: 10px; color: #6677aa; }
-
-/* ===== GB PREVIEW ===== */
-.preview-outer {
-  border: 3px inset #9aabcc;
-  display: inline-block;
-  padding: 2px;
-  background: #334466;
-  margin-top: 4px;
-}
-.gb-screen {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 12px;
-  padding: 10px 12px;
-  width: 220px;
-}
-.gb-item { padding: 2px 4px; }
-
-/* ===== THEMES ===== */
-.themes-wrap { margin-top: 8px; }
-.theme-btn {
-  font-family: Verdana, sans-serif;
-  font-size: 10px;
-  padding: 2px 7px;
-  background-color: #c8d8f0;
-  border: 2px outset #9aabcc;
-  cursor: pointer;
-  color: #112266;
-  margin: 2px 2px 2px 0;
-}
-.theme-btn:hover { background-color: #a8c0e8; }
-.theme-btn:active { border-style: inset; }
-.theme-swatches {
-  display: inline-flex;
-  gap: 1px;
-  vertical-align: middle;
-  margin-right: 3px;
-}
-.tsw {
-  width: 8px;
-  height: 8px;
-  border: 1px solid rgba(0,0,0,.3);
-  display: inline-block;
-}
-
-/* ===== DMG ===== */
-.dmg-swatch {
-  width: 18px;
-  height: 18px;
-  border: 2px inset #9aabcc;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 4px;
-}
-.dmg-sel {
-  font-family: Verdana, sans-serif;
-  font-size: 11px;
-  padding: 1px 3px;
-  border: 2px inset #9aabcc;
-  background: #fff;
-  color: #000033;
-}
-.bgp-line {
-  font-family: "Courier New", monospace;
-  font-size: 11px;
-  color: #445588;
-  margin-top: 6px;
-}
-
-/* ===== STATUS MESSAGES ===== */
-.status-msg {
-  font-family: "Courier New", monospace;
-  font-size: 11px;
-  padding: 5px 8px;
-  margin-top: 6px;
-  border: 2px inset #9aabcc;
-  display: none;
-}
-.status-ok   { background: #ddffdd; color: #005500; border-color: #44aa44; display: block; }
-.status-err  { background: #ffdddd; color: #770000; border-color: #cc4444; display: block; }
-.status-warn { background: #fff8cc; color: #664400; border-color: #cc8800; display: block; }
-
-/* ===== BUTTONS ===== */
-.btn-main {
-  font-family: Verdana, sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 5px 16px;
-  background-color: #c8d8f0;
-  border: 3px outset #aabbdd;
-  cursor: pointer;
-  color: #000066;
-  margin-right: 6px;
-}
-.btn-main:hover { background-color: #b0c8ee; }
-.btn-main:active { border-style: inset; }
-
-.btn-sec {
-  font-family: Verdana, sans-serif;
-  font-size: 11px;
-  padding: 3px 10px;
-  background-color: #dde8f8;
-  border: 2px outset #9aabcc;
-  cursor: pointer;
-  color: #334466;
-  margin-right: 4px;
-}
-.btn-sec:hover { background-color: #ccd8f0; }
-.btn-sec:active { border-style: inset; }
-
-.btn-warn {
-  font-family: Verdana, sans-serif;
-  font-size: 11px;
-  padding: 3px 10px;
-  background-color: #f8eecc;
-  border: 2px outset #ddbb66;
-  cursor: pointer;
-  color: #664400;
-}
-.btn-warn:hover { background-color: #f0e0aa; }
-
-/* ===== DOWNLOAD AREA ===== */
-.dl-area { display: none; margin-top: 8px; }
-.dl-hint { font-size: 10px; color: #445588; margin-bottom: 4px; }
-.dl-link {
-  font-family: Verdana, sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 5px 16px;
-  background-color: #cceecc;
-  border: 3px outset #88bb88;
-  cursor: pointer;
-  color: #003300;
-  text-decoration: none;
-  display: inline-block;
-}
-.dl-link:hover { background-color: #aaddaa; }
-
-/* ===== ACTION BAR ===== */
-.action-bar {
-  background-color: #d0ddf0;
-  border: 2px inset #9aabcc;
-  border-top: 2px outset #aabbdd;
-  padding: 7px 10px;
-  margin-top: 6px;
-}
-
-/* ===== HEX VIEWER ===== */
-.hex-out {
-  font-family: "Courier New", monospace;
-  font-size: 11px;
-  background: #000022;
-  color: #44ff88;
-  border: 2px inset #334466;
-  padding: 8px 10px;
-  white-space: pre;
-  margin-top: 6px;
-  display: none;
-  overflow-x: auto;
-  line-height: 1.6;
-}
-
-/* ===== ADV INPUTS ===== */
-.adv-inp {
-  font-family: "Courier New", monospace;
-  font-size: 12px;
-  padding: 2px 4px;
-  background: #ffffff;
-  border: 2px inset #9aabcc;
-  color: #000066;
-}
-.adv-inp:focus { outline: none; background: #fffff0; }
-
-/* ===== BADGE ===== */
-.badge-warn {
-  font-size: 9px;
-  font-weight: bold;
-  padding: 1px 4px;
-  background: #fff0cc;
-  border: 1px solid #cc8800;
-  color: #884400;
-  text-transform: uppercase;
-  margin-left: 3px;
-  vertical-align: middle;
-}
-
-/* ===== FOOTER ===== */
-.footer {
-  background-color: #0a1628;
-  border: 2px outset #334466;
-  padding: 6px 10px;
-  text-align: center;
-  font-size: 10px;
-  color: #4466aa;
-  margin-top: 6px;
-}
-.footer a { color: #88aacc; }
-.footer a:hover { color: #ffffff; }
-
-/* ===== MISC ===== */
-.note-box {
-  background-color: #fff8cc;
-  border: 1px solid #ccaa44;
-  border-left: 4px solid #cc8800;
-  padding: 5px 8px;
-  font-size: 11px;
-  color: #443300;
-  margin-bottom: 8px;
-}
-.credits-box {
-  background-color: #e8f0ff;
-  border: 2px inset #9aabcc;
-  padding: 6px 10px;
-  font-size: 11px;
-  color: #223355;
-  margin-bottom: 8px;
-  text-align: center;
-}
-.credits-box a { color: #0000cc; }
-hr.panel-hr {
-  border: 0;
-  border-top: 1px solid #9aabcc;
-  border-bottom: 1px solid #ffffff;
-  margin: 8px 0;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Verdana,Arial,sans-serif;font-size:12px;background-color:#1e2d4a;background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4z8BQDwQMjIyM/xkYGAAHhAEBsHqBkgAAAABJRU5ErkJggg==");color:#000}
+#wrapper{width:780px;margin:8px auto}
+/* HEADER */
+.site-header{background:#060e1c;border:3px outset #5577aa;padding:12px 14px 10px;text-align:center;margin-bottom:6px}
+.site-title{font-family:"Courier New",monospace;font-size:24px;font-weight:bold;color:#ffcc00;letter-spacing:3px;display:block}
+.site-sub{font-family:Verdana,sans-serif;font-size:10px;color:#88aacc;margin-top:4px;display:block}
+.site-meta{font-family:"Courier New",monospace;font-size:10px;color:#44aa44;margin-top:3px;display:block}
+/* NAVBAR */
+.navbar{background:#12203a;border:2px outset #3d5a8a;padding:4px 8px;margin-bottom:6px;font-size:11px;display:flex;align-items:center;flex-wrap:wrap;gap:2px}
+.navbar a{color:#ffcc00;text-decoration:none;margin-right:10px;font-weight:bold}
+.navbar a:hover{color:#fff;text-decoration:underline}
+.nav-sep{color:#3d5a8a;margin-right:10px}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+/* LAYOUT */
+.layout{display:table;width:100%;border-collapse:collapse}
+.sidebar-cell{display:table-cell;width:162px;vertical-align:top;padding-right:6px}
+.main-cell{display:table-cell;vertical-align:top}
+/* SIDEBAR */
+.sbox{background:#d8e5f5;border:2px outset #99aacc;margin-bottom:6px}
+.sbox-title{background:#12336a;color:#fff;font-size:11px;font-weight:bold;padding:3px 7px;text-transform:uppercase;letter-spacing:1px;border-bottom:2px inset #99aacc}
+.sbox-body{padding:7px}
+.sbox-body p{font-size:11px;color:#1a2e4a;margin-bottom:5px;line-height:1.5}
+.sbox-link{display:block;font-size:11px;color:#0000cc;text-decoration:underline;margin-bottom:3px}
+.sbox-link:hover{color:#cc0000}
+.sbox-hr{border:0;border-top:1px solid #99aacc;margin:5px 0}
+/* STATS WIDGET */
+.stat-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;color:#1a2e4a}
+.stat-num{font-family:"Courier New",monospace;font-weight:bold;color:#0033aa}
+.stat-num.changed{color:#cc6600}
+/* SEARCH BOX */
+.search-wrap{padding:6px 7px 7px}
+.search-inp{width:100%;font-family:"Courier New",monospace;font-size:11px;padding:3px 5px;border:2px inset #8899bb;background:#fff;color:#000066}
+.search-inp:focus{outline:none;background:#fffff0}
+.search-count{font-size:10px;color:#6677aa;margin-top:3px}
+/* PANEL */
+.panel{background:#eaf0fc;border:3px outset #99aacc;margin-bottom:6px}
+.panel-title{background:#12336a;color:#fff;font-size:12px;font-weight:bold;padding:4px 9px;border-bottom:2px inset #99aacc;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center}
+.panel-title span{font-family:"Courier New",monospace;font-size:10px;color:#88bbdd;font-weight:normal;text-transform:none;letter-spacing:0;margin-left:auto}
+.panel-body{padding:8px 10px}
+/* ROM INFO BAR */
+.rominfo{background:#060e1c;border:2px inset #2a3a5a;padding:5px 10px;margin-bottom:8px;font-family:"Courier New",monospace;font-size:11px;color:#88ccff;display:none;display:flex;flex-wrap:wrap;align-items:center;gap:2px 14px}
+.ri-label{color:#3d6888}
+.ri-val{color:#44ff88;font-weight:bold}
+.ri-reload{margin-left:auto;font-family:Verdana,sans-serif;font-size:10px;color:#ffcc00;cursor:pointer;text-decoration:underline;background:none;border:none;padding:0}
+.ri-reload:hover{color:#fff}
+/* DROP ZONE */
+.dropzone{background:#ccdaf0;border:2px dashed #4d6fa0;padding:30px 16px;text-align:center;cursor:pointer;margin-bottom:8px;transition:background .1s}
+.dropzone:hover,.dropzone.drag{background:#b8ccea;border-color:#1a3a7a}
+.dz-title{font-size:13px;font-weight:bold;color:#0a1a4a;margin-bottom:4px}
+.dz-sub{font-size:11px;color:#3a5070}
+/* TABS */
+.tab-bar{border-bottom:2px solid #4d6fa0;margin-bottom:0;padding-left:2px;line-height:1;display:flex;flex-wrap:wrap}
+.tab-btn{font-family:Verdana,sans-serif;font-size:11px;font-weight:bold;padding:4px 10px;background:#b8ccea;border:2px outset #99aacc;border-bottom:none;cursor:pointer;color:#0a1a4a;margin-right:2px;position:relative;top:2px;white-space:nowrap}
+.tab-btn:hover{background:#a0bce0}
+.tab-btn.active{background:#eaf0fc;border-bottom:2px solid #eaf0fc;color:#000066;z-index:1}
+.tab-panel{display:none;padding:10px 0 4px}
+.tab-panel.active{display:block}
+/* SECTION */
+.sec-head{font-size:11px;font-weight:bold;color:#001166;text-transform:uppercase;letter-spacing:1px;margin:10px 0 5px}
+.sec-head:first-child{margin-top:0}
+.panel-hr{border:0;border-top:2px solid #4d6fa0;border-bottom:1px solid #b8ccea;margin:10px 0 8px}
+/* FIELD TABLE */
+.field-table{width:100%;border-collapse:collapse}
+.field-table td{padding:2px 3px;vertical-align:middle}
+.f-label{font-size:11px;color:#2a3a5a;white-space:nowrap;width:178px}
+.f-label .tt{cursor:help;border-bottom:1px dotted #6688aa;color:#2a3a5a}
+.f-inp{font-family:"Courier New",monospace;font-size:12px;padding:2px 4px;background:#fff;border:2px inset #8899bb;color:#000066;width:100%;transition:background .1s}
+.f-inp:focus{background:#fffff0;outline:none;border-color:#1a2a6a}
+.f-inp.changed{background:#fff8cc;border-color:#cc8800}
+.f-inp.warn-field{background:#fff4e0}
+.f-inp.search-hidden{display:none}
+.f-addr{font-family:"Courier New",monospace;font-size:10px;color:#7788aa;white-space:nowrap;width:52px;text-align:right}
+.f-rem{font-family:"Courier New",monospace;font-size:10px;color:#7788aa;width:22px;text-align:right;white-space:nowrap}
+.f-rem.low{color:#cc7700;font-weight:bold}
+.f-rem.zero{color:#cc0000;font-weight:bold}
+.f-revert{font-size:10px;font-family:Verdana,sans-serif;padding:0 3px;background:#f0f4ff;border:1px outset #8899bb;cursor:pointer;color:#334466;display:none;white-space:nowrap}
+.f-revert:hover{background:#dde8ff;color:#cc0000}
+.f-revert.show{display:inline}
+.f-row-changed td{background:#fffbee}
+/* TOGGLE */
+.tog-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:11px;color:#1a2e4a}
+.tog-row input[type=checkbox]{margin-top:2px}
+.tog-sub{font-size:10px;color:#5566aa;display:block;margin-top:1px}
+/* COLORS */
+.color-tbl{width:100%;border-collapse:collapse}
+.color-tbl td{padding:3px 3px;vertical-align:middle}
+.cpwrap{display:inline-block;border:2px inset #8899bb;padding:1px;background:#fff;vertical-align:middle}
+.cpick{width:34px;height:26px;border:none;padding:0;cursor:pointer;display:block}
+.chex{font-family:"Courier New",monospace;font-size:12px;width:72px;padding:2px 4px;background:#fff;border:2px inset #8899bb;color:#000066}
+.chex:focus{outline:none;background:#fffff0}
+.c-name{font-size:11px;color:#1a2e4a;font-weight:bold}
+.c-desc{font-size:10px;color:#5566aa}
+.prev-outer{border:3px inset #8899bb;display:inline-block;padding:2px;background:#2a3a5a;margin-top:4px}
+.gb-screen{font-family:"Courier New",monospace;font-size:12px;padding:10px 12px;width:220px}
+.gb-item{padding:2px 4px}
+.themes-wrap{margin-top:6px}
+.theme-btn{font-family:Verdana,sans-serif;font-size:10px;padding:2px 7px;background:#b8ccea;border:2px outset #8899bb;cursor:pointer;color:#0a1a4a;margin:2px 2px 2px 0}
+.theme-btn:hover{background:#9ab8e0}
+.theme-btn:active{border-style:inset}
+.tswatches{display:inline-flex;gap:1px;vertical-align:middle;margin-right:3px}
+.tsw{width:8px;height:8px;border:1px solid rgba(0,0,0,.3);display:inline-block}
+.dmg-swatch{width:18px;height:18px;border:2px inset #8899bb;display:inline-block;vertical-align:middle;margin-right:4px}
+.dmg-sel{font-family:Verdana,sans-serif;font-size:11px;padding:1px 3px;border:2px inset #8899bb;background:#fff;color:#000033}
+.bgp-line{font-family:"Courier New",monospace;font-size:11px;color:#3d5888;margin-top:6px}
+/* STATUS */
+.status-msg{font-family:"Courier New",monospace;font-size:11px;padding:5px 8px;margin-top:6px;border:2px inset #8899bb;display:none}
+.st-ok{background:#ddffdd;color:#004400;border-color:#44aa44;display:block}
+.st-err{background:#ffdddd;color:#660000;border-color:#bb3333;display:block}
+.st-warn{background:#fff8cc;color:#553300;border-color:#bb8800;display:block}
+/* BUTTONS */
+.btn-main{font-family:Verdana,sans-serif;font-size:12px;font-weight:bold;padding:5px 16px;background:#b8ccea;border:3px outset #99aacc;cursor:pointer;color:#000066;margin-right:6px}
+.btn-main:hover{background:#9ab5e5}
+.btn-main:active{border-style:inset}
+.btn-main.green{background:#b8e8b8;border-color:#88bb88;color:#003300}
+.btn-main.green:hover{background:#99dd99}
+.btn-sec{font-family:Verdana,sans-serif;font-size:11px;padding:3px 10px;background:#d4e3f8;border:2px outset #8899bb;cursor:pointer;color:#222f4a;margin-right:4px}
+.btn-sec:hover{background:#b8ccea}
+.btn-sec:active{border-style:inset}
+/* ACTION BAR */
+.action-bar{background:#c8d8f0;border:2px inset #8899bb;border-top:2px outset #99aacc;padding:7px 10px;margin-top:6px;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+/* DOWNLOAD */
+.dl-area{display:none;margin-top:8px}
+.dl-hint{font-size:10px;color:#3d5070;margin-bottom:4px}
+.dl-link{font-family:Verdana,sans-serif;font-size:12px;font-weight:bold;padding:5px 16px;background:#c0e8c0;border:3px outset #77aa77;cursor:pointer;color:#002200;text-decoration:none;display:inline-block}
+.dl-link:hover{background:#a0d8a0}
+.dl-link-ips{font-family:Verdana,sans-serif;font-size:12px;font-weight:bold;padding:5px 14px;background:#d0e8ff;border:3px outset #7799cc;cursor:pointer;color:#001133;text-decoration:none;display:inline-block;margin-left:8px}
+.dl-link-ips:hover{background:#b8d8f8}
+/* HEX VIEWER */
+.hex-out{font-family:"Courier New",monospace;font-size:11px;background:#000820;color:#44ee88;border:2px inset #2a3a5a;padding:8px 10px;white-space:pre;margin-top:6px;display:none;overflow-x:auto;line-height:1.6}
+.adv-inp{font-family:"Courier New",monospace;font-size:12px;padding:2px 4px;background:#fff;border:2px inset #8899bb;color:#000066}
+.adv-inp:focus{outline:none;background:#fffff0}
+/* BADGE */
+.badge-warn{font-size:9px;font-weight:bold;padding:1px 4px;background:#fff0cc;border:1px solid #cc8800;color:#774400;text-transform:uppercase;margin-left:3px;vertical-align:middle}
+/* CREDITS */
+.credits-box{background:#e4eeff;border:2px inset #8899bb;padding:6px 10px;font-size:11px;color:#1a2e4a;margin-bottom:8px;text-align:center}
+.credits-box a{color:#0000cc}
+/* NOTES */
+.note-box{background:#fff8cc;border:1px solid #ccaa44;border-left:4px solid #cc8800;padding:5px 8px;font-size:11px;color:#332200;margin-bottom:8px}
+/* TOOLTIP */
+.tooltip-box{display:none;position:fixed;z-index:9999;background:#ffffcc;border:2px outset #aa8800;padding:5px 8px;font-size:11px;color:#332200;max-width:220px;line-height:1.4;pointer-events:none;box-shadow:2px 2px 4px rgba(0,0,0,.3)}
+/* PATCH SUMMARY MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-box{background:#eaf0fc;border:4px outset #99aacc;width:600px;max-height:80vh;display:flex;flex-direction:column}
+.modal-title{background:#12336a;color:#fff;font-size:13px;font-weight:bold;padding:6px 10px;text-transform:uppercase;letter-spacing:1px;border-bottom:2px inset #99aacc;display:flex;align-items:center}
+.modal-title .modal-close{margin-left:auto;background:#cc4444;border:2px outset #ee6666;color:#fff;font-weight:bold;font-size:11px;padding:1px 7px;cursor:pointer;font-family:Verdana,sans-serif}
+.modal-close:hover{background:#aa2222}
+.modal-body{padding:10px;overflow-y:auto;flex:1}
+.summary-table{width:100%;border-collapse:collapse;font-size:11px}
+.summary-table th{background:#1a3a6a;color:#fff;padding:4px 7px;text-align:left;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.5px}
+.summary-table td{padding:3px 7px;border-bottom:1px solid #c0cce0;vertical-align:top}
+.summary-table tr:nth-child(even) td{background:#dde8f8}
+.summary-old{font-family:"Courier New",monospace;font-size:11px;color:#aa3300;text-decoration:line-through}
+.summary-new{font-family:"Courier New",monospace;font-size:11px;color:#004400;font-weight:bold}
+.summary-tab{font-size:10px;color:#5566aa;font-style:italic}
+.summary-empty{font-size:12px;color:#5566aa;padding:12px;text-align:center}
+.modal-footer{padding:8px 10px;border-top:2px inset #8899bb;background:#d4e3f8;display:flex;gap:6px;align-items:center}
+/* IPS INFO */
+.ips-info{font-size:10px;color:#3d5070;margin-top:4px}
+/* KEYBOARD HINT */
+.kbd-hint{font-family:"Courier New",monospace;font-size:10px;color:#5566aa;background:#e0e8f8;border:1px outset #8899bb;padding:1px 4px}
+/* CHANGED INDICATOR */
+.changed-dot{display:none;width:7px;height:7px;border-radius:50%;background:#cc8800;border:1px solid #aa6600;vertical-align:middle;margin-right:4px;display:inline-block;opacity:0}
+.changed-dot.on{opacity:1}
+/* FOOTER */
+.footer{background:#060e1c;border:2px outset #2a3a5a;padding:6px 10px;text-align:center;font-size:10px;color:#3d5888;margin-top:6px}
+.footer a{color:#6688aa}
+.footer a:hover{color:#fff}
 </style>
 </head>
 <body>
 
 <div id="wrapper">
 
-<!-- ======= HEADER ======= -->
-<table class="header-table" width="100%" cellspacing="0" cellpadding="0">
-<tr><td>
-  <div class="site-header">
-    <span class="site-title">[ GBOS ROM PATCHER ]</span>
-    <span class="site-sub">EverDrive GB &mdash; GBOS Firmware String &amp; Palette Editor</span>
-    <span class="site-version">v1.0 &nbsp;|&nbsp; single-file web tool &nbsp;|&nbsp; no install required</span>
-  </div>
-</td></tr>
-</table>
+<!-- HEADER -->
+<div class="site-header">
+  <span class="site-title">[ GBOS ROM PATCHER ]</span>
+  <span class="site-sub">EverDrive GB &mdash; GBOS Firmware String &amp; Palette Editor</span>
+  <span class="site-meta">v2.0 &nbsp;&bull;&nbsp; single HTML file &nbsp;&bull;&nbsp; no install &nbsp;&bull;&nbsp; nothing uploaded &nbsp;&bull;&nbsp; <span class="kbd-hint">Ctrl+B</span> = build</span>
+</div>
 
-<!-- ======= NAVBAR ======= -->
+<!-- NAVBAR -->
 <div class="navbar">
-  <span class="navbar-sep">&raquo;</span>
+  <span class="nav-sep">&raquo;</span>
   <a href="http://krikzz.com" target="_blank">krikzz.com</a>
   <a href="https://everdrive.me" target="_blank">everdrive.me</a>
   <a href="https://www.romhacking.net" target="_blank">ROMhacking.net</a>
-  <a href="https://github.com" target="_blank">GitHub</a>
+  <a href="https://gbdev.io/pandocs/" target="_blank">Pan&nbsp;Docs</a>
+  <div class="nav-right">
+    <span style="font-size:10px;color:#5577aa">Changes: </span>
+    <span id="nav-change-count" style="font-family:'Courier New',monospace;font-size:11px;font-weight:bold;color:#ffcc00">0</span>
+  </div>
 </div>
 
-<!-- ======= 2-COL LAYOUT ======= -->
-<table class="content-table" cellspacing="0" cellpadding="0">
-<tr>
+<!-- TOOLTIP -->
+<div class="tooltip-box" id="tooltip"></div>
 
-  <!-- ===== SIDEBAR ===== -->
-  <td class="sidebar-cell">
+<!-- PATCH SUMMARY MODAL -->
+<div class="modal-overlay" id="summary-modal">
+  <div class="modal-box">
+    <div class="modal-title">
+      Patch Summary &mdash; Review Changes
+      <button class="modal-close" onclick="closeModal()">X</button>
+    </div>
+    <div class="modal-body" id="summary-body"></div>
+    <div class="modal-footer">
+      <button class="btn-main green" onclick="closeModal();buildROM()">&#9660; Looks good &mdash; Build &amp; Download</button>
+      <button class="btn-sec" onclick="closeModal()">Go back and edit</button>
+      <span style="margin-left:auto;font-size:10px;color:#5566aa" id="summary-count-line"></span>
+    </div>
+  </div>
+</div>
 
-    <div class="sidebar-box">
-      <div class="sidebar-title">About</div>
-      <div class="sidebar-body">
-        <p>A browser-based patcher for the <strong>GBOS</strong> firmware used on the <strong>EverDrive&nbsp;GB&nbsp;Rev.H&nbsp;Pro+</strong> flash cartridge.</p>
-        <p>Lets you rename UI strings and change the CGB/DMG color palette. No install, no server &mdash; just open the .html file.</p>
-        <p><strong>Original GBOS by:</strong><br>I. Golubovskiy<br>(krikzz)</p>
-        <p>This tool is unofficial and unaffiliated with Krikzz.</p>
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar-cell">
+
+  <div class="sbox">
+    <div class="sbox-title">Search Fields</div>
+    <div class="search-wrap">
+      <input class="search-inp" id="search-inp" type="text" placeholder="Search all strings..." oninput="doSearch(this.value)">
+      <div class="search-count" id="search-count">&nbsp;</div>
+    </div>
+  </div>
+
+  <div class="sbox">
+    <div class="sbox-title">Session Stats</div>
+    <div class="sbox-body">
+      <div class="stat-row"><span>Fields loaded:</span><span class="stat-num" id="stat-total">0</span></div>
+      <div class="stat-row"><span>Modified:</span><span class="stat-num changed" id="stat-changed">0</span></div>
+      <div class="stat-row"><span>Tabs with changes:</span><span class="stat-num changed" id="stat-tabs">0</span></div>
+      <div class="stat-row"><span>ROM size:</span><span class="stat-num" id="stat-size">-</span></div>
+    </div>
+  </div>
+
+  <div class="sbox">
+    <div class="sbox-title">About</div>
+    <div class="sbox-body">
+      <p>Browser-based patcher for <strong>GBOS</strong> firmware on the <strong>EverDrive&nbsp;GB&nbsp;Rev.H&nbsp;Pro+</strong>.</p>
+      <p>Patch strings, colors, paths, and palette. No install. Nothing sent anywhere.</p>
+      <p><strong>GBOS by:</strong><br>I. Golubovskiy (krikzz)</p>
+      <p style="color:#aa3300;font-size:10px">Unofficial fan tool.</p>
+    </div>
+  </div>
+
+  <div class="sbox">
+    <div class="sbox-title">How To Use</div>
+    <div class="sbox-body">
+      <p><strong>1.</strong> Drop <tt>GBOS.GB</tt> onto the upload area.</p>
+      <p><strong>2.</strong> Edit using the tabs. Modified fields turn <span style="background:#fff8cc;border:1px solid #cc8800;padding:0 2px">yellow</span>.</p>
+      <p><strong>3.</strong> Click <em>Review &amp; Build</em> to see a summary of all changes.</p>
+      <p><strong>4.</strong> Download the patched ROM <em>or</em> a small .ips patch file.</p>
+      <p><strong>5.</strong> Flash via the EverDrive OS update procedure.</p>
+      <p style="margin-top:4px"><span class="kbd-hint">Ctrl+B</span> to build instantly.</p>
+    </div>
+  </div>
+
+  <div class="sbox">
+    <div class="sbox-title">Field Colors</div>
+    <div class="sbox-body">
+      <p><span style="background:#fff;border:1px inset #8899bb;padding:0 4px;font-family:'Courier New',monospace;font-size:11px">text</span> &mdash; unchanged</p>
+      <p style="margin-top:4px"><span style="background:#fff8cc;border:1px solid #cc8800;padding:0 4px;font-family:'Courier New',monospace;font-size:11px">text</span> &mdash; modified</p>
+      <p style="margin-top:4px"><span class="badge-warn">caution</span> &mdash; affects flashing</p>
+      <p style="margin-top:4px">Counter turns <span style="color:#cc7700;font-weight:bold">orange</span>/<span style="color:#cc0000;font-weight:bold">red</span> near limit.</p>
+    </div>
+  </div>
+
+  <div class="sbox">
+    <div class="sbox-title">Links</div>
+    <div class="sbox-body">
+      <a class="sbox-link" href="http://krikzz.com" target="_blank">krikzz.com (official)</a>
+      <a class="sbox-link" href="https://everdrive.me" target="_blank">everdrive.me</a>
+      <a class="sbox-link" href="https://www.romhacking.net" target="_blank">ROMhacking.net</a>
+      <a class="sbox-link" href="https://gbdev.io/pandocs/" target="_blank">Pan Docs</a>
+      <hr class="sbox-hr">
+      <p style="font-size:10px;color:#5566aa">Best viewed 800x600+</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- MAIN -->
+<div class="main-cell">
+
+  <div class="credits-box">
+    <strong>GBOS</strong> firmware &copy; <a href="http://krikzz.com" target="_blank">I. Golubovskiy / krikzz</a>
+    &mdash; Unofficial fan tool &mdash; not affiliated with Krikzz
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="panel" id="upload-panel">
+    <div class="panel-title">Step 1 &mdash; Load ROM File <span>supports .gb .gbc .bin</span></div>
+    <div class="panel-body">
+      <div class="dropzone" id="drop"
+        onclick="document.getElementById('file-in').click()"
+        ondragover="event.preventDefault();this.classList.add('drag')"
+        ondragleave="this.classList.remove('drag')"
+        ondrop="handleDrop(event)">
+        <input type="file" id="file-in" accept=".gb,.gbc,.bin" style="display:none" onchange="loadFile(this.files[0])">
+        <div class="dz-title">Click to browse or drop GBOS .GB file here</div>
+        <div class="dz-sub">File is read locally &mdash; never uploaded anywhere</div>
       </div>
+      <div id="status-load" class="status-msg"></div>
+    </div>
+  </div>
+
+  <!-- EDITOR -->
+  <div id="editor-panel" style="display:none">
+
+    <div class="rominfo" id="rominfo">
+      <span class="ri-label">Title:</span><span class="ri-val" id="inf-title">-</span>
+      <span class="ri-label">Size:</span><span class="ri-val" id="inf-size">-</span>
+      <span class="ri-label">CGB:</span><span class="ri-val" id="inf-cgb">-</span>
+      <span class="ri-label">Mapper:</span><span class="ri-val" id="inf-mapper">-</span>
+      <span class="ri-label">Checksum:</span><span class="ri-val" id="inf-ck">-</span>
+      <button class="ri-reload" onclick="resetToFile()">[load different file]</button>
     </div>
 
-    <div class="sidebar-box">
-      <div class="sidebar-title">Instructions</div>
-      <div class="sidebar-body">
-        <p><strong>1.</strong> Click <em>Browse</em> or drop your <tt>GBOS.GB</tt> file onto the upload area.</p>
-        <p><strong>2.</strong> Edit strings and colors using the tabs.</p>
-        <p><strong>3.</strong> Click <em>Build patched ROM</em>.</p>
-        <p><strong>4.</strong> Right-click the download link &rarr; <em>Save link as...</em></p>
-        <p><strong>5.</strong> Flash using the EverDrive OS update procedure.</p>
-      </div>
-    </div>
-
-    <div class="sidebar-box">
-      <div class="sidebar-title">Notes</div>
-      <div class="sidebar-body">
-        <p>All edits are non-destructive &mdash; original bytes are preserved in memory until you build.</p>
-        <p>Header checksum is auto-repaired on every build.</p>
-        <p>The <span class="badge-warn">caution</span> label marks strings that affect cart flashing behavior.</p>
-        <p>Character counters turn <span style="color:#cc7700;font-weight:bold">orange</span> / <span style="color:#cc0000;font-weight:bold">red</span> near the byte limit.</p>
-      </div>
-    </div>
-
-    <div class="sidebar-box">
-      <div class="sidebar-title">Links</div>
-      <div class="sidebar-body">
-        <a class="sidebar-link" href="http://krikzz.com" target="_blank">krikzz.com (official)</a>
-        <a class="sidebar-link" href="https://everdrive.me" target="_blank">everdrive.me</a>
-        <a class="sidebar-link" href="https://www.romhacking.net" target="_blank">ROMhacking.net</a>
-        <a class="sidebar-link" href="https://gbdev.io/pandocs/" target="_blank">Pan Docs (GB hardware ref)</a>
-        <hr class="sidebar-hr">
-        <p style="font-size:10px;color:#6677aa">Best viewed in 800x600 or higher</p>
-      </div>
-    </div>
-
-  </td>
-
-  <!-- ===== MAIN PANEL ===== -->
-  <td class="main-cell">
-
-    <div class="credits-box">
-      <strong>GBOS</strong> firmware &copy; <a href="http://krikzz.com" target="_blank">I. Golubovskiy (krikzz)</a> &mdash;
-      This patcher is an unofficial fan tool. All firmware rights belong to their respective owner.
-    </div>
-
-    <!-- Upload panel -->
-    <div class="panel" id="upload-panel">
-      <div class="panel-title">Step 1 &mdash; Load ROM File <span>supports .gb .gbc .bin</span></div>
+    <div class="panel">
+      <div class="panel-title">Step 2 &mdash; Edit Patches <span>yellow = modified from original ROM &nbsp;|&nbsp; <span class="kbd-hint">Ctrl+B</span> = build</span></div>
       <div class="panel-body">
-        <div class="dropzone" id="drop"
-          onclick="document.getElementById('file-in').click()"
-          ondragover="event.preventDefault();this.classList.add('drag')"
-          ondragleave="this.classList.remove('drag')"
-          ondrop="handleDrop(event)">
-          <input type="file" id="file-in" accept=".gb,.gbc,.bin" style="display:none" onchange="loadFile(this.files[0])">
-          <div class="dropzone-title">Click to browse or drop GBOS .GB file here</div>
-          <div class="dropzone-sub">Loads entirely in your browser &mdash; file is never uploaded anywhere</div>
+
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="switchTab('colors')"><span class="changed-dot" id="dot-colors"></span>Colors</button>
+          <button class="tab-btn" onclick="switchTab('menus')"><span class="changed-dot" id="dot-menus"></span>Menus</button>
+          <button class="tab-btn" onclick="switchTab('cheats')"><span class="changed-dot" id="dot-cheats"></span>Cheats</button>
+          <button class="tab-btn" onclick="switchTab('saves')"><span class="changed-dot" id="dot-saves"></span>Save RAM</button>
+          <button class="tab-btn" onclick="switchTab('about')"><span class="changed-dot" id="dot-about"></span>About/Info</button>
+          <button class="tab-btn" onclick="switchTab('system')"><span class="changed-dot" id="dot-system"></span>System</button>
+          <button class="tab-btn" onclick="switchTab('boot')"><span class="changed-dot" id="dot-boot"></span>Boot</button>
+          <button class="tab-btn" onclick="switchTab('advanced')">Advanced</button>
         </div>
-        <div id="status-load" class="status-msg"></div>
+
+        <!-- COLORS -->
+        <div class="tab-panel active" id="tab-colors">
+          <div class="sec-head">CGB Color Palette &mdash; Game Boy Color Mode</div>
+          <p style="font-size:11px;color:#2a3a5a;margin-bottom:8px">BG palette 0 used for all GBOS menu rendering on CGB/GBC hardware. Four colors: background, text, selected row, border/inactive.</p>
+          <table cellspacing="0" cellpadding="0" width="100%"><tr valign="top">
+            <td width="320">
+              <table class="color-tbl" id="cgb-color-tbl"></table>
+              <div class="themes-wrap">
+                <div class="sec-head" style="margin-top:10px">Preset Themes</div>
+                <div id="theme-btns"></div>
+              </div>
+            </td>
+            <td style="padding-left:14px">
+              <div style="font-size:11px;color:#2a3a5a;font-weight:bold;margin-bottom:4px">Live Preview</div>
+              <div class="prev-outer"><div class="gb-screen" id="gb-preview"></div></div>
+            </td>
+          </tr></table>
+          <hr class="panel-hr">
+          <div class="sec-head">DMG Palette &mdash; Original Game Boy (BGP register @ 0x64BC)</div>
+          <p style="font-size:11px;color:#2a3a5a;margin-bottom:8px">Maps each color index to one of the four hardware gray shades.</p>
+          <table cellspacing="0" cellpadding="3" id="dmg-tbl"></table>
+          <div class="bgp-line">BGP register value: <strong id="bgp-val">0xDC</strong></div>
+        </div>
+
+        <!-- MENUS -->
+        <div class="tab-panel" id="tab-menus">
+          <div class="sec-head">Main Navigation</div>
+          <table class="field-table" id="grp-main-nav"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">File Menu</div>
+          <table class="field-table" id="grp-file-menu"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">Settings Screen</div>
+          <table class="field-table" id="grp-settings"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">File Browser</div>
+          <table class="field-table" id="grp-filebrowser"></table>
+        </div>
+
+        <!-- CHEATS -->
+        <div class="tab-panel" id="tab-cheats">
+          <div class="sec-head">Cheat / Code Menu Strings</div>
+          <table class="field-table" id="grp-cheats"></table>
+        </div>
+
+        <!-- SAVES -->
+        <div class="tab-panel" id="tab-saves">
+          <div class="sec-head">Save RAM Menu</div>
+          <table class="field-table" id="grp-saveram"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">Flash Write Screen</div>
+          <div class="note-box">Strings shown during flashing. Editing the warning text is allowed but changing it to something misleading could cause data loss.</div>
+          <table class="field-table" id="grp-flash"></table>
+        </div>
+
+        <!-- ABOUT -->
+        <div class="tab-panel" id="tab-about">
+          <div class="sec-head">About Screen</div>
+          <table class="field-table" id="grp-about"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">Device Info Screen</div>
+          <table class="field-table" id="grp-devinfo"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">Cart Info Screen Labels</div>
+          <table class="field-table" id="grp-cartinfo"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">Mapper Type Names</div>
+          <table class="field-table" id="grp-mapper"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">ROM Size Display Strings</div>
+          <table class="field-table" id="grp-romsizes"></table>
+        </div>
+
+        <!-- SYSTEM -->
+        <div class="tab-panel" id="tab-system">
+          <div class="sec-head">ROM Header</div>
+          <table class="field-table" id="grp-header"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">SD Card Folder Paths</div>
+          <p style="font-size:11px;color:#2a3a5a;margin-bottom:6px">If you rename the <tt>/EDGB/</tt> folder on your SD card, patch all three to match.</p>
+          <table class="field-table" id="grp-paths"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">File Extensions</div>
+          <p style="font-size:11px;color:#2a3a5a;margin-bottom:6px">Archive types recognized by the file browser, and the save file extension for load/backup.</p>
+          <table class="field-table" id="grp-exts"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">Option Value Strings</div>
+          <table class="field-table" id="grp-optvals"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">Separator Line</div>
+          <table class="field-table" id="grp-sep"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">Error Message</div>
+          <table class="field-table" id="grp-error"></table>
+        </div>
+
+        <!-- BOOT -->
+        <div class="tab-panel" id="tab-boot">
+          <div class="sec-head">Startup Behavior</div>
+          <div class="tog-row">
+            <input type="checkbox" id="t-initmsg" checked>
+            <div>Show boot splash messages
+              <span class="tog-sub">Displays "init..." and "OS loading..." on startup. Uncheck to suppress both.</span>
+            </div>
+          </div>
+          <hr class="panel-hr">
+          <div class="sec-head">Boot Splash Strings</div>
+          <table class="field-table" id="grp-boot-strings"></table>
+          <hr class="panel-hr">
+          <div class="sec-head">Boot Jump Target &mdash; JP instruction at 0x0100</div>
+          <table class="field-table" id="grp-boot-jump"></table>
+        </div>
+
+        <!-- ADVANCED -->
+        <div class="tab-panel" id="tab-advanced">
+          <div class="sec-head">Arbitrary Byte Patch</div>
+          <p style="font-size:11px;color:#2a3a5a;margin-bottom:6px">Write raw bytes at any offset. Hex (0x0000) or decimal. Bytes: space-separated hex e.g. <tt>3E 05 EA 00 BF</tt></p>
+          <table cellspacing="0" cellpadding="3">
+            <tr><td style="font-size:11px;color:#2a3a5a;white-space:nowrap">Offset:</td><td><input class="adv-inp" id="adv-addr" size="10" maxlength="8" placeholder="0x0000"></td></tr>
+            <tr><td style="font-size:11px;color:#2a3a5a;white-space:nowrap">Bytes (hex):</td><td><input class="adv-inp" id="adv-bytes" size="36" placeholder="00 FF 3E A5"></td></tr>
+            <tr><td></td><td style="padding-top:4px"><button class="btn-sec" onclick="applyAdv()">Apply Patch</button></td></tr>
+          </table>
+          <div id="adv-status" class="status-msg"></div>
+          <hr class="panel-hr">
+          <div class="sec-head">Header Checksum Repair</div>
+          <p style="font-size:11px;color:#2a3a5a;margin-bottom:6px">Recalculates header checksum at 0x014D. Build button does this automatically.</p>
+          <button class="btn-sec" onclick="fixCk()">Recalculate Checksum</button>
+          <div id="ck-status" class="status-msg"></div>
+          <hr class="panel-hr">
+          <div class="sec-head">Hex Viewer</div>
+          <p style="font-size:11px;color:#2a3a5a;margin-bottom:6px">Inspect 64 bytes at any offset.</p>
+          <table cellspacing="0" cellpadding="3"><tr>
+            <td style="font-size:11px;color:#2a3a5a">Offset:</td>
+            <td><input class="adv-inp" id="hv-addr" size="10" maxlength="8" placeholder="0x0000"></td>
+            <td><button class="btn-sec" onclick="hexView()">View</button></td>
+          </tr></table>
+          <div class="hex-out" id="hv-out"></div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Editor panel (hidden until ROM loaded) -->
-    <div id="editor-panel" style="display:none">
+    <!-- ACTION BAR -->
+    <div class="action-bar">
+      <button class="btn-main" onclick="showSummary()">&#9654; Review &amp; Build</button>
+      <button class="btn-sec" onclick="buildROM()">Quick Build (skip review)</button>
+      <button class="btn-sec" onclick="resetAll()">Reset All Fields</button>
+      <span style="margin-left:auto;font-size:10px;color:#3d5070"><span class="kbd-hint">Ctrl+B</span> = quick build</span>
+    </div>
 
-      <!-- ROM info -->
-      <div class="rominfo" id="rominfo">
-        <span class="rominfo-label">Title: </span><span class="rominfo-val" id="inf-title">-</span>
-        <span class="rominfo-label">Size: </span><span class="rominfo-val" id="inf-size">-</span>
-        <span class="rominfo-label">CGB: </span><span class="rominfo-val" id="inf-cgb">-</span>
-        <span class="rominfo-label">Mapper: </span><span class="rominfo-val" id="inf-mapper">-</span>
-        <span class="rominfo-label">Checksum: </span><span class="rominfo-val" id="inf-ck">-</span>
-        <button class="rominfo-reload" onclick="resetToFile()">[load different file]</button>
-      </div>
+    <div class="dl-area" id="dl-area">
+      <div class="dl-hint">&raquo; Right-click &rarr; "Save link as..." if browser doesn't auto-download:</div>
+      <a id="dl-link" class="dl-link" download="GBOS_patched.GB">&#9660; Download Patched ROM &mdash; <span id="dl-fname">GBOS_patched.GB</span></a>
+      <a id="dl-ips" class="dl-link-ips" download="GBOS_patch.ips">&#9660; Download .ips Patch</a>
+      <div class="ips-info">The .ips file is tiny (&lt;1KB) and contains only your changes. Share it without distributing the firmware.</div>
+      <div id="build-status" class="status-msg"></div>
+    </div>
 
-      <div class="panel">
-        <div class="panel-title">Step 2 &mdash; Edit Patches <span>all changes are non-destructive</span></div>
-        <div class="panel-body">
+  </div>
 
-          <!-- Tab bar -->
-          <div class="tab-bar">
-            <button class="tab-btn active" onclick="switchTab('colors')">Colors</button>
-            <button class="tab-btn" onclick="switchTab('menus')">Menus</button>
-            <button class="tab-btn" onclick="switchTab('cheats')">Cheats</button>
-            <button class="tab-btn" onclick="switchTab('saves')">Save RAM</button>
-            <button class="tab-btn" onclick="switchTab('about')">About/Info</button>
-            <button class="tab-btn" onclick="switchTab('system')">System</button>
-            <button class="tab-btn" onclick="switchTab('boot')">Boot</button>
-            <button class="tab-btn" onclick="switchTab('advanced')">Advanced</button>
-          </div>
+</div><!-- /main-cell -->
+</div><!-- /layout -->
 
-          <!-- ===== COLORS TAB ===== -->
-          <div class="tab-panel active" id="tab-colors">
-
-            <div class="sec-head">CGB Color Palette &mdash; Game Boy Color Mode</div>
-            <p style="font-size:11px;color:#334466;margin-bottom:8px">
-              BG palette 0, the only palette used for all GBOS menu rendering on CGB/GBC hardware.
-              Four colors: background fill, text, selected row highlight, and border/inactive elements.
-            </p>
-
-            <table cellspacing="0" cellpadding="0" width="100%"><tr valign="top">
-              <td width="330">
-                <table class="color-table" id="cgb-color-table"></table>
-                <div class="themes-wrap">
-                  <div class="sec-head" style="margin-top:10px">Preset Themes</div>
-                  <div id="theme-btns"></div>
-                </div>
-              </td>
-              <td style="padding-left:16px">
-                <div style="font-size:11px;color:#334466;font-weight:bold;margin-bottom:4px">Live Preview</div>
-                <div class="preview-outer">
-                  <div class="gb-screen" id="gb-preview"></div>
-                </div>
-              </td>
-            </tr></table>
-
-            <hr class="panel-hr">
-
-            <div class="sec-head">DMG Palette &mdash; Original Game Boy</div>
-            <p style="font-size:11px;color:#334466;margin-bottom:8px">
-              Maps each of the 4 color indices to one of the four hardware gray shades.
-              Writes to the BGP register byte at ROM address 0x64BC.
-            </p>
-            <table cellspacing="0" cellpadding="3" id="dmg-table"></table>
-            <div class="bgp-line">BGP register value: <span id="bgp-val" style="font-weight:bold">0xDC</span></div>
-
-          </div>
-
-          <!-- ===== MENUS TAB ===== -->
-          <div class="tab-panel" id="tab-menus">
-            <div class="sec-head">Main Navigation</div>
-            <table class="field-table" id="grp-main-nav"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">File Menu</div>
-            <table class="field-table" id="grp-file-menu"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">Settings Screen</div>
-            <table class="field-table" id="grp-settings"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">File Browser</div>
-            <table class="field-table" id="grp-filebrowser"></table>
-          </div>
-
-          <!-- ===== CHEATS TAB ===== -->
-          <div class="tab-panel" id="tab-cheats">
-            <div class="sec-head">Cheat / Code Menu Strings</div>
-            <table class="field-table" id="grp-cheats"></table>
-          </div>
-
-          <!-- ===== SAVES TAB ===== -->
-          <div class="tab-panel" id="tab-saves">
-            <div class="sec-head">Save RAM Menu</div>
-            <table class="field-table" id="grp-saveram"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">Flash Write Screen</div>
-            <div class="note-box">
-              Strings shown during the flash write process. Editing the warning text is allowed but changing it to something misleading could cause data loss. Edit with care.
-            </div>
-            <table class="field-table" id="grp-flash"></table>
-          </div>
-
-          <!-- ===== ABOUT TAB ===== -->
-          <div class="tab-panel" id="tab-about">
-            <div class="sec-head">About Screen</div>
-            <table class="field-table" id="grp-about"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">Device Info Screen</div>
-            <table class="field-table" id="grp-devinfo"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">Cart Info Screen Labels</div>
-            <table class="field-table" id="grp-cartinfo"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">Mapper Type Names</div>
-            <table class="field-table" id="grp-mapper"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">ROM Size Display Strings</div>
-            <table class="field-table" id="grp-romsizes"></table>
-          </div>
-
-          <!-- ===== SYSTEM TAB ===== -->
-          <div class="tab-panel" id="tab-system">
-            <div class="sec-head">ROM Header</div>
-            <table class="field-table" id="grp-header"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">SD Card Folder Paths</div>
-            <p style="font-size:11px;color:#334466;margin-bottom:6px">
-              If you rename the <tt>/EDGB/</tt> folder on your SD card, patch these strings to match.
-              All three must be consistent with each other.
-            </p>
-            <table class="field-table" id="grp-paths"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">File Extensions</div>
-            <p style="font-size:11px;color:#334466;margin-bottom:6px">
-              Archive types recognized by the file browser, and the save file extension used for load/backup operations.
-            </p>
-            <table class="field-table" id="grp-exts"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">Option Value Strings (YES / NO)</div>
-            <table class="field-table" id="grp-optvals"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">Separator Line</div>
-            <table class="field-table" id="grp-sep"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">Error Message</div>
-            <table class="field-table" id="grp-error"></table>
-          </div>
-
-          <!-- ===== BOOT TAB ===== -->
-          <div class="tab-panel" id="tab-boot">
-            <div class="sec-head">Startup Behavior</div>
-            <div class="toggle-row">
-              <input type="checkbox" id="t-initmsg" checked>
-              <div>
-                Show boot splash messages
-                <span class="toggle-sub">Displays "init..." and "OS loading..." on startup. Uncheck to suppress both strings.</span>
-              </div>
-            </div>
-            <hr class="panel-hr">
-            <div class="sec-head">Boot Splash Strings</div>
-            <table class="field-table" id="grp-boot-strings"></table>
-            <hr class="panel-hr">
-            <div class="sec-head">Boot Jump Target &mdash; JP instruction at 0x0100</div>
-            <table class="field-table" id="grp-boot-jump"></table>
-          </div>
-
-          <!-- ===== ADVANCED TAB ===== -->
-          <div class="tab-panel" id="tab-advanced">
-            <div class="sec-head">Arbitrary Byte Patch</div>
-            <p style="font-size:11px;color:#334466;margin-bottom:6px">
-              Write raw bytes at any ROM offset. Offset: hex (0x0000) or decimal.
-              Bytes: space-separated hex values e.g. <tt>3E 05 EA 00 BF</tt>
-            </p>
-            <table cellspacing="0" cellpadding="3">
-              <tr>
-                <td style="font-size:11px;color:#334466;white-space:nowrap">Offset:</td>
-                <td><input class="adv-inp" id="adv-addr" size="10" maxlength="8" placeholder="0x0000"></td>
-              </tr>
-              <tr>
-                <td style="font-size:11px;color:#334466;white-space:nowrap">Bytes (hex):</td>
-                <td><input class="adv-inp" id="adv-bytes" size="36" placeholder="00 FF 3E A5"></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td style="padding-top:4px"><button class="btn-sec" onclick="applyAdv()">Apply Patch</button></td>
-              </tr>
-            </table>
-            <div id="adv-status" class="status-msg"></div>
-
-            <hr class="panel-hr">
-
-            <div class="sec-head">Header Checksum Repair</div>
-            <p style="font-size:11px;color:#334466;margin-bottom:6px">
-              Recalculates the header checksum at 0x014D. The build button does this automatically,
-              but you can also force it here after applying raw byte patches above.
-            </p>
-            <button class="btn-sec" onclick="fixCk()">Recalculate Checksum</button>
-            <div id="ck-status" class="status-msg"></div>
-
-            <hr class="panel-hr">
-
-            <div class="sec-head">Hex Viewer</div>
-            <p style="font-size:11px;color:#334466;margin-bottom:6px">
-              Inspect 64 bytes of the loaded ROM at any offset.
-            </p>
-            <table cellspacing="0" cellpadding="3"><tr>
-              <td style="font-size:11px;color:#334466">Offset:</td>
-              <td><input class="adv-inp" id="hv-addr" size="10" maxlength="8" placeholder="0x0000"></td>
-              <td><button class="btn-sec" onclick="hexView()">View</button></td>
-            </tr></table>
-            <div class="hex-out" id="hv-out"></div>
-          </div>
-
-        </div><!-- /panel-body -->
-      </div><!-- /panel -->
-
-      <!-- Action bar -->
-      <div class="action-bar">
-        <button class="btn-main" onclick="buildROM()">&#9660; Build Patched ROM</button>
-        <button class="btn-sec" onclick="resetAll()">Reset All Fields</button>
-      </div>
-
-      <div class="dl-area" id="dl-area">
-        <div class="dl-hint">
-          &raquo; Right-click the link below and choose &ldquo;Save link as...&rdquo; if your browser doesn&rsquo;t auto-download:
-        </div>
-        <a id="dl-link" class="dl-link" download="GBOS_patched.GB">&#9660; Download: <span id="dl-fname">GBOS_patched.GB</span></a>
-        <div id="build-status" class="status-msg"></div>
-      </div>
-
-    </div><!-- /editor-panel -->
-
-  </td>
-</tr>
-</table>
-
-<!-- ======= FOOTER ======= -->
 <div class="footer">
-  GBOS ROM Patcher &nbsp;&mdash;&nbsp;
-  GBOS firmware &copy; <a href="http://krikzz.com" target="_blank">I. Golubovskiy / krikzz</a> &nbsp;&mdash;&nbsp;
-  This tool is unofficial and unaffiliated &nbsp;&mdash;&nbsp;
-  Use at your own risk &nbsp;&mdash;&nbsp;
-  Page generated by static HTML, no server required
+  GBOS ROM Patcher v2.0 &nbsp;&mdash;&nbsp;
+  GBOS firmware &copy; <a href="http://krikzz.com" target="_blank">I. Golubovskiy / krikzz</a>
+  &nbsp;&mdash;&nbsp; Unofficial fan tool, not affiliated with Krikzz &nbsp;&mdash;&nbsp;
+  Use at your own risk &nbsp;&mdash;&nbsp; Always back up your original GBOS.GB
 </div>
 
 </div><!-- /wrapper -->
 
 <script type="text/javascript">
-/* ============================================================
-   GBOS ROM PATCHER - JavaScript
-   All patch offsets verified against GBOS.GB (Rev.00, 32KB)
-   ============================================================ */
+/* ================================================================
+   GBOS ROM PATCHER v2.0
+   Offsets verified against GBOS.GB Rev.00 (32KB, ROM-ONLY mapper)
+   ================================================================ */
+
+var TOOLTIPS = {
+  's-mainmenu':   'Title shown at the top of the main navigation menu.',
+  's-options':    'Label for the Options/Settings menu item.',
+  's-cheats':     'Label for the Cheats/Codes menu item.',
+  's-devinfo':    'Label for the Device Info menu item.',
+  's-about':      'Label for the About screen menu item.',
+  's-filemenu':   'Title shown at the top of the file selection menu.',
+  's-loadstart':  'Loads the ROM into flash memory and immediately starts it.',
+  's-loadonly':   'Loads the ROM into flash memory without starting.',
+  's-loadcheats': 'Option to load a cheat/code file alongside the ROM.',
+  's-cancel':     'Returns to the previous menu without doing anything.',
+  's-unzip':      'Shown for compressed archive files in the browser.',
+  's-settings':   'Title of the settings/options configuration screen.',
+  's-resetdef':   'Option to reset all settings back to factory defaults.',
+  's-presskey':   'Prompt shown after a settings change requiring confirmation.',
+  's-nofiles':    'Shown when a folder contains no compatible files.',
+  's-page':       'Prefix before the current page number in the file browser.',
+  's-of':         'Separator between current page and total pages e.g. "2 of 4".',
+  's-codemenu':   'Title of the cheat code management screen.',
+  's-edit':       'Option to edit an existing cheat code entry.',
+  's-remove':     'Option to delete a cheat code entry.',
+  's-applyprompt':'Confirmation prompt before activating cheat codes.',
+  's-apply':      'Confirm and activate the selected cheat codes.',
+  's-contedit':   'Return to the code editor without applying.',
+  's-exitmenu':   'Exit the cheat menu and return to the file browser.',
+  's-applycodes': 'Status text shown while cheat codes are being applied.',
+  's-loadsave':   'Load a save file from the SD card into cart SRAM.',
+  's-bkupsave':   'Back up the current cart SRAM to the SD card.',
+  's-f2s':        'Copy a .srm file from SD directly into cart SRAM.',
+  's-s2f':        'Copy the current cart SRAM out to a .srm file on SD.',
+  's-flash':      'WARNING: shown while flash memory is being written. Do not change to something misleading.',
+  's-erase':      'Status text shown during the flash erase phase.',
+  's-write':      'Status text shown during the flash write phase.',
+  's-cartname':   'The firmware/product name shown on the About screen.',
+  's-devby':      'The "Developed by:" label prefix on the About screen.',
+  's-devname':    'The developer name shown on the About screen.',
+  's-support':    'The "Support:" label prefix on the About screen.',
+  's-email':      'The contact email address shown on the About screen.',
+  's-url':        'The website URL shown on the About screen.',
+  's-ctrl':       '"Control:" section header on the About screen.',
+  's-ctrllr':     'Hint for Left/Right d-pad on the About screen.',
+  's-ctrlb':      'Hint for the B button on the About screen.',
+  's-ctrla':      'Hint for the A button on the About screen.',
+  's-ctrlsel':    'Hint for the SELECT button on the About screen.',
+  's-ctrlst':     'Hint for the START button on the About screen.',
+  's-sn':         'Label prefix before the hardware serial number.',
+  's-sysinfo':    'Title of the system/hardware information screen.',
+  's-cpld':       'Label for the CPLD chip version number.',
+  's-bios':       'Label for the BIOS version number.',
+  's-osver':      'Label for the OS/firmware version number.',
+  's-asmdate':    'Label for the firmware assembly date.',
+  's-asmtime':    'Label for the firmware assembly time.',
+  's-mapper':     'Label for the detected mapper type on the cart info screen.',
+  's-romsize':    'Label for the ROM size on the cart info screen.',
+  's-ramsize':    'Label for the RAM size on the cart info screen.',
+  's-saveram':    'Label for Save RAM presence on the cart info screen.',
+  's-swapkey':    'Label for the key swap setting on the cart info screen.',
+  's-unkmap':     'Shown when the mapper type is not recognized.',
+  's-mbc1':       'Display name for MBC1 mapper type.',
+  's-mbc2':       'Display name for MBC2 mapper type.',
+  's-mbc3':       'Display name for MBC3 mapper type.',
+  's-romonly':    'Display name for ROM-only (no mapper) type.',
+  's-mbc5':       'Display name for MBC5 mapper type.',
+  's-64k':        'Display string for 64KB ROM size.',
+  's-128k':       'Display string for 128KB ROM size.',
+  's-256k':       'Display string for 256KB ROM size.',
+  's-512k':       'Display string for 512KB ROM size.',
+  's-1m':         'Display string for 1MB ROM size.',
+  's-2m':         'Display string for 2MB ROM size.',
+  's-4m':         'Display string for 4MB ROM size.',
+  's-8m':         'Display string for 8MB ROM size.',
+  's-romtitle':   'Internal ROM title embedded in the header at 0x0134. Shown in emulators and some tools. Max 11 chars.',
+  's-path-full':  'Full path to the GBOS firmware file on the SD card.',
+  's-path-save':  'Path to the save file folder on the SD card.',
+  's-path-base':  'Base path for the EverDrive folder on the SD card.',
+  's-ext-zip':    'Archive extension recognized by the file browser (zip).',
+  's-ext-rar':    'Archive extension recognized by the file browser (rar).',
+  's-ext-7z':     'Archive extension recognized by the file browser (7z).',
+  's-ext-srm1':   'Save file extension used in the file picker dialog.',
+  's-ext-srm2':   'Save file extension used in backup path construction.',
+  's-no':         'String displayed for boolean NO/OFF option values.',
+  's-yes':        'String displayed for boolean YES/ON option values.',
+  's-sep':        'Horizontal separator line drawn in menus. 20 chars max.',
+  's-error':      'Text of the error message shown when a fatal error occurs.',
+  's-init':       'First message shown during the boot sequence.',
+  's-loading':    'Second message shown during the boot sequence.',
+  's-autherr':    'Message shown when the authentication/boot check fails.',
+};
 
 var STRINGS = [
-  // group, id, label, addr, len, warn
-  {g:'main-nav',   id:'s-mainmenu',    lb:'Main menu title',          a:0x4D91, n:9  },
-  {g:'main-nav',   id:'s-options',     lb:'Options item',             a:0x4D9B, n:7  },
-  {g:'main-nav',   id:'s-cheats',      lb:'Cheats item',              a:0x4DA3, n:6  },
-  {g:'main-nav',   id:'s-devinfo',     lb:'Device info item',         a:0x4DAA, n:11 },
-  {g:'main-nav',   id:'s-about',       lb:'About item',               a:0x4DB6, n:5  },
-  {g:'file-menu',  id:'s-filemenu',    lb:'File menu title',          a:0x4BF1, n:9  },
-  {g:'file-menu',  id:'s-loadstart',   lb:'Load and start label',     a:0x4E9C, n:14 },
-  {g:'file-menu',  id:'s-loadonly',    lb:'Load only label',          a:0x4EAB, n:9  },
-  {g:'file-menu',  id:'s-loadcheats',  lb:'Load cheats label',        a:0x4CBC, n:11 },
-  {g:'file-menu',  id:'s-cancel',      lb:'Cancel label',             a:0x4CC8, n:6  },
-  {g:'file-menu',  id:'s-unzip',       lb:'Unzip label',              a:0x4BFB, n:9  },
-  {g:'settings',   id:'s-settings',    lb:'Settings title',           a:0x5BEF, n:8  },
-  {g:'settings',   id:'s-resetdef',    lb:'Reset to default',         a:0x5BF8, n:16 },
-  {g:'settings',   id:'s-presskey',    lb:'Press any key',            a:0x5C09, n:13 },
-  {g:'filebrowser',id:'s-nofiles',     lb:'No files message',         a:0x6963, n:18 },
-  {g:'filebrowser',id:'s-page',        lb:'Page prefix',              a:0x6957, n:6  },
-  {g:'filebrowser',id:'s-of',          lb:'Page separator',           a:0x695E, n:4  },
-  {g:'cheats',     id:'s-codemenu',    lb:'Code menu title',          a:0x3E2B, n:9  },
-  {g:'cheats',     id:'s-edit',        lb:'Edit label',               a:0x3E35, n:4  },
-  {g:'cheats',     id:'s-remove',      lb:'Remove label',             a:0x3E3A, n:6  },
-  {g:'cheats',     id:'s-applyprompt', lb:'Apply codes? prompt',      a:0x3E41, n:12 },
-  {g:'cheats',     id:'s-apply',       lb:'Apply label',              a:0x3E4E, n:5  },
-  {g:'cheats',     id:'s-contedit',    lb:'Continue edit label',      a:0x3E54, n:13 },
-  {g:'cheats',     id:'s-exitmenu',    lb:'Exit to menu label',       a:0x3E62, n:12 },
-  {g:'cheats',     id:'s-applycodes',  lb:'Apply codes... label',     a:0x3E6F, n:14 },
-  {g:'saveram',    id:'s-loadsave',    lb:'Load save RAM label',      a:0x5D0A, n:16 },
-  {g:'saveram',    id:'s-bkupsave',    lb:'Backup save RAM label',    a:0x5ECE, n:18 },
-  {g:'saveram',    id:'s-f2s',         lb:'Copy file to SRAM',        a:0x6189, n:17 },
-  {g:'saveram',    id:'s-s2f',         lb:'Copy SRAM to file',        a:0x619B, n:17 },
-  {g:'flash',      id:'s-flash',       lb:'Flash warning text',       a:0x5267, n:19, w:true },
-  {g:'flash',      id:'s-erase',       lb:'Erase label',              a:0x5290, n:8  },
-  {g:'flash',      id:'s-write',       lb:'Write label',              a:0x5299, n:5  },
-  {g:'about',      id:'s-cartname',    lb:'Cart / firmware name',     a:0x5A40, n:12 },
-  {g:'about',      id:'s-devby',       lb:'"Developed by:" label',    a:0x5A4E, n:13 },
-  {g:'about',      id:'s-devname',     lb:'Developer name',           a:0x5A5C, n:14 },
-  {g:'about',      id:'s-support',     lb:'"Support:" label',         a:0x5A6B, n:8  },
-  {g:'about',      id:'s-email',       lb:'Contact email',            a:0x5A74, n:17 },
-  {g:'about',      id:'s-url',         lb:'Website URL',              a:0x5A86, n:17 },
-  {g:'about',      id:'s-ctrl',        lb:'"Control:" label',         a:0x5A98, n:8  },
-  {g:'about',      id:'s-ctrllr',      lb:'Left/right button hint',   a:0x5AA1, n:19 },
-  {g:'about',      id:'s-ctrlb',       lb:'B button hint',            a:0x5AB5, n:11 },
-  {g:'about',      id:'s-ctrla',       lb:'A button hint',            a:0x5AC1, n:6  },
-  {g:'about',      id:'s-ctrlsel',     lb:'SELECT hint',              a:0x5AC8, n:16 },
-  {g:'about',      id:'s-ctrlst',      lb:'START hint',               a:0x5AD9, n:19 },
-  {g:'about',      id:'s-sn',          lb:'Serial number label',      a:0x5AED, n:3  },
-  {g:'devinfo',    id:'s-sysinfo',     lb:'System info title',        a:0x591A, n:18 },
-  {g:'devinfo',    id:'s-cpld',        lb:'CPLD version label',       a:0x592D, n:13 },
-  {g:'devinfo',    id:'s-bios',        lb:'BIOS version label',       a:0x593B, n:13 },
-  {g:'devinfo',    id:'s-osver',       lb:'OS version label',         a:0x5949, n:13 },
-  {g:'devinfo',    id:'s-asmdate',     lb:'Asm date label',           a:0x5957, n:9  },
-  {g:'devinfo',    id:'s-asmtime',     lb:'Asm time label',           a:0x5963, n:9  },
-  {g:'cartinfo',   id:'s-mapper',      lb:'Mapper label',             a:0x570C, n:9  },
-  {g:'cartinfo',   id:'s-romsize',     lb:'ROM size label',           a:0x5716, n:9  },
-  {g:'cartinfo',   id:'s-ramsize',     lb:'RAM size label',           a:0x5720, n:9  },
-  {g:'cartinfo',   id:'s-saveram',     lb:'Save RAM label',           a:0x572A, n:9  },
-  {g:'cartinfo',   id:'s-swapkey',     lb:'Swap key label',           a:0x5734, n:9  },
-  {g:'cartinfo',   id:'s-unkmap',      lb:'Unknown mapper string',    a:0x573E, n:4  },
-  {g:'mapper',     id:'s-mbc1',        lb:'MBC1 name',                a:0x5743, n:4  },
-  {g:'mapper',     id:'s-mbc2',        lb:'MBC2 name',                a:0x5748, n:4  },
-  {g:'mapper',     id:'s-mbc3',        lb:'MBC3 name',                a:0x574D, n:4  },
-  {g:'mapper',     id:'s-romonly',     lb:'ROM-only name',            a:0x5752, n:4  },
-  {g:'mapper',     id:'s-mbc5',        lb:'MBC5 name',                a:0x5757, n:4  },
-  {g:'romsizes',   id:'s-64k',         lb:'64K label',                a:0x575C, n:4  },
-  {g:'romsizes',   id:'s-128k',        lb:'128K label',               a:0x5761, n:4  },
-  {g:'romsizes',   id:'s-256k',        lb:'256K label',               a:0x5766, n:4  },
-  {g:'romsizes',   id:'s-512k',        lb:'512K label',               a:0x576B, n:4  },
-  {g:'romsizes',   id:'s-1m',          lb:'1M label',                 a:0x5770, n:4  },
-  {g:'romsizes',   id:'s-2m',          lb:'2M label',                 a:0x5775, n:4  },
-  {g:'romsizes',   id:'s-4m',          lb:'4M label',                 a:0x577A, n:4  },
-  {g:'romsizes',   id:'s-8m',          lb:'8M label',                 a:0x577F, n:4  },
-  {g:'header',     id:'s-romtitle',    lb:'ROM header title (11 max)',a:0x0134, n:11 },
-  {g:'paths',      id:'s-path-full',   lb:'OS file path',             a:0x4A67, n:16 },
-  {g:'paths',      id:'s-path-save',   lb:'Save folder path',         a:0x5CFB, n:10 },
-  {g:'paths',      id:'s-path-base',   lb:'Base folder path',         a:0x5EF0, n:5  },
-  {g:'exts',       id:'s-ext-zip',     lb:'Archive type: zip',        a:0x4BE2, n:3  },
-  {g:'exts',       id:'s-ext-rar',     lb:'Archive type: rar',        a:0x4BE6, n:3  },
-  {g:'exts',       id:'s-ext-7z',      lb:'Archive type: 7z',         a:0x4BED, n:3  },
-  {g:'exts',       id:'s-ext-srm1',    lb:'Save ext (file picker)',   a:0x5D06, n:3  },
-  {g:'exts',       id:'s-ext-srm2',    lb:'Save ext (backup path)',   a:0x5EEC, n:3  },
-  {g:'optvals',    id:'s-no',          lb:'"NO" value string',        a:0x5794, n:3  },
-  {g:'optvals',    id:'s-yes',         lb:'"YES" value string',       a:0x5798, n:3  },
-  {g:'sep',        id:'s-sep',         lb:'Separator line (20 chars)',a:0x527B, n:20 },
-  {g:'error',      id:'s-error',       lb:'Error message text',       a:0x66A3, n:11 },
-  {g:'boot-strings',id:'s-init',       lb:'Init message',             a:0x49E6, n:7  },
-  {g:'boot-strings',id:'s-loading',    lb:'Loading message',          a:0x49EE, n:13 },
-  {g:'boot-strings',id:'s-autherr',    lb:'Auth error message',       a:0x0804, n:20 },
+  {g:'main-nav',    id:'s-mainmenu',    lb:'Main menu title',          a:0x4D91,n:9 },
+  {g:'main-nav',    id:'s-options',     lb:'Options item',             a:0x4D9B,n:7 },
+  {g:'main-nav',    id:'s-cheats',      lb:'Cheats item',              a:0x4DA3,n:6 },
+  {g:'main-nav',    id:'s-devinfo',     lb:'Device info item',         a:0x4DAA,n:11},
+  {g:'main-nav',    id:'s-about',       lb:'About item',               a:0x4DB6,n:5 },
+  {g:'file-menu',   id:'s-filemenu',    lb:'File menu title',          a:0x4BF1,n:9 },
+  {g:'file-menu',   id:'s-loadstart',   lb:'Load and start',           a:0x4E9C,n:14},
+  {g:'file-menu',   id:'s-loadonly',    lb:'Load only',                a:0x4EAB,n:9 },
+  {g:'file-menu',   id:'s-loadcheats',  lb:'Load cheats',              a:0x4CBC,n:11},
+  {g:'file-menu',   id:'s-cancel',      lb:'Cancel',                   a:0x4CC8,n:6 },
+  {g:'file-menu',   id:'s-unzip',       lb:'Unzip label',              a:0x4BFB,n:9 },
+  {g:'settings',    id:'s-settings',    lb:'Settings title',           a:0x5BEF,n:8 },
+  {g:'settings',    id:'s-resetdef',    lb:'Reset to default',         a:0x5BF8,n:16},
+  {g:'settings',    id:'s-presskey',    lb:'Press any key',            a:0x5C09,n:13},
+  {g:'filebrowser', id:'s-nofiles',     lb:'No files message',         a:0x6963,n:18},
+  {g:'filebrowser', id:'s-page',        lb:'Page prefix',              a:0x6957,n:6 },
+  {g:'filebrowser', id:'s-of',          lb:'Page separator',           a:0x695E,n:4 },
+  {g:'cheats',      id:'s-codemenu',    lb:'Code menu title',          a:0x3E2B,n:9 },
+  {g:'cheats',      id:'s-edit',        lb:'Edit label',               a:0x3E35,n:4 },
+  {g:'cheats',      id:'s-remove',      lb:'Remove label',             a:0x3E3A,n:6 },
+  {g:'cheats',      id:'s-applyprompt', lb:'Apply codes? prompt',      a:0x3E41,n:12},
+  {g:'cheats',      id:'s-apply',       lb:'Apply label',              a:0x3E4E,n:5 },
+  {g:'cheats',      id:'s-contedit',    lb:'Continue edit',            a:0x3E54,n:13},
+  {g:'cheats',      id:'s-exitmenu',    lb:'Exit to menu',             a:0x3E62,n:12},
+  {g:'cheats',      id:'s-applycodes',  lb:'Apply codes...',           a:0x3E6F,n:14},
+  {g:'saveram',     id:'s-loadsave',    lb:'Load save RAM',            a:0x5D0A,n:16},
+  {g:'saveram',     id:'s-bkupsave',    lb:'Backup save RAM',          a:0x5ECE,n:18},
+  {g:'saveram',     id:'s-f2s',         lb:'Copy file to SRAM',        a:0x6189,n:17},
+  {g:'saveram',     id:'s-s2f',         lb:'Copy SRAM to file',        a:0x619B,n:17},
+  {g:'flash',       id:'s-flash',       lb:'Flash warning text',       a:0x5267,n:19,w:true},
+  {g:'flash',       id:'s-erase',       lb:'Erase label',              a:0x5290,n:8 },
+  {g:'flash',       id:'s-write',       lb:'Write label',              a:0x5299,n:5 },
+  {g:'about',       id:'s-cartname',    lb:'Cart / firmware name',     a:0x5A40,n:12},
+  {g:'about',       id:'s-devby',       lb:'"Developed by:" label',    a:0x5A4E,n:13},
+  {g:'about',       id:'s-devname',     lb:'Developer name',           a:0x5A5C,n:14},
+  {g:'about',       id:'s-support',     lb:'"Support:" label',         a:0x5A6B,n:8 },
+  {g:'about',       id:'s-email',       lb:'Contact email',            a:0x5A74,n:17},
+  {g:'about',       id:'s-url',         lb:'Website URL',              a:0x5A86,n:17},
+  {g:'about',       id:'s-ctrl',        lb:'"Control:" label',         a:0x5A98,n:8 },
+  {g:'about',       id:'s-ctrllr',      lb:'Left/right hint',          a:0x5AA1,n:19},
+  {g:'about',       id:'s-ctrlb',       lb:'B button hint',            a:0x5AB5,n:11},
+  {g:'about',       id:'s-ctrla',       lb:'A button hint',            a:0x5AC1,n:6 },
+  {g:'about',       id:'s-ctrlsel',     lb:'SELECT hint',              a:0x5AC8,n:16},
+  {g:'about',       id:'s-ctrlst',      lb:'START hint',               a:0x5AD9,n:19},
+  {g:'about',       id:'s-sn',          lb:'Serial number label',      a:0x5AED,n:3 },
+  {g:'devinfo',     id:'s-sysinfo',     lb:'System info title',        a:0x591A,n:18},
+  {g:'devinfo',     id:'s-cpld',        lb:'CPLD version label',       a:0x592D,n:13},
+  {g:'devinfo',     id:'s-bios',        lb:'BIOS version label',       a:0x593B,n:13},
+  {g:'devinfo',     id:'s-osver',       lb:'OS version label',         a:0x5949,n:13},
+  {g:'devinfo',     id:'s-asmdate',     lb:'Asm date label',           a:0x5957,n:9 },
+  {g:'devinfo',     id:'s-asmtime',     lb:'Asm time label',           a:0x5963,n:9 },
+  {g:'cartinfo',    id:'s-mapper',      lb:'Mapper label',             a:0x570C,n:9 },
+  {g:'cartinfo',    id:'s-romsize',     lb:'ROM size label',           a:0x5716,n:9 },
+  {g:'cartinfo',    id:'s-ramsize',     lb:'RAM size label',           a:0x5720,n:9 },
+  {g:'cartinfo',    id:'s-saveram',     lb:'Save RAM label',           a:0x572A,n:9 },
+  {g:'cartinfo',    id:'s-swapkey',     lb:'Swap key label',           a:0x5734,n:9 },
+  {g:'cartinfo',    id:'s-unkmap',      lb:'Unknown mapper',           a:0x573E,n:4 },
+  {g:'mapper',      id:'s-mbc1',        lb:'MBC1 name',                a:0x5743,n:4 },
+  {g:'mapper',      id:'s-mbc2',        lb:'MBC2 name',                a:0x5748,n:4 },
+  {g:'mapper',      id:'s-mbc3',        lb:'MBC3 name',                a:0x574D,n:4 },
+  {g:'mapper',      id:'s-romonly',     lb:'ROM-only name',            a:0x5752,n:4 },
+  {g:'mapper',      id:'s-mbc5',        lb:'MBC5 name',                a:0x5757,n:4 },
+  {g:'romsizes',    id:'s-64k',         lb:'64K label',                a:0x575C,n:4 },
+  {g:'romsizes',    id:'s-128k',        lb:'128K label',               a:0x5761,n:4 },
+  {g:'romsizes',    id:'s-256k',        lb:'256K label',               a:0x5766,n:4 },
+  {g:'romsizes',    id:'s-512k',        lb:'512K label',               a:0x576B,n:4 },
+  {g:'romsizes',    id:'s-1m',          lb:'1M label',                 a:0x5770,n:4 },
+  {g:'romsizes',    id:'s-2m',          lb:'2M label',                 a:0x5775,n:4 },
+  {g:'romsizes',    id:'s-4m',          lb:'4M label',                 a:0x577A,n:4 },
+  {g:'romsizes',    id:'s-8m',          lb:'8M label',                 a:0x577F,n:4 },
+  {g:'header',      id:'s-romtitle',    lb:'ROM header title',         a:0x0134,n:11},
+  {g:'paths',       id:'s-path-full',   lb:'OS file path',             a:0x4A67,n:16},
+  {g:'paths',       id:'s-path-save',   lb:'Save folder path',         a:0x5CFB,n:10},
+  {g:'paths',       id:'s-path-base',   lb:'Base folder path',         a:0x5EF0,n:5 },
+  {g:'exts',        id:'s-ext-zip',     lb:'Archive type: zip',        a:0x4BE2,n:3 },
+  {g:'exts',        id:'s-ext-rar',     lb:'Archive type: rar',        a:0x4BE6,n:3 },
+  {g:'exts',        id:'s-ext-7z',      lb:'Archive type: 7z',         a:0x4BED,n:3 },
+  {g:'exts',        id:'s-ext-srm1',    lb:'Save ext (file picker)',   a:0x5D06,n:3 },
+  {g:'exts',        id:'s-ext-srm2',    lb:'Save ext (backup path)',   a:0x5EEC,n:3 },
+  {g:'optvals',     id:'s-no',          lb:'"NO" value string',        a:0x5794,n:3 },
+  {g:'optvals',     id:'s-yes',         lb:'"YES" value string',       a:0x5798,n:3 },
+  {g:'sep',         id:'s-sep',         lb:'Separator line (20 chars)',a:0x527B,n:20},
+  {g:'error',       id:'s-error',       lb:'Error message',            a:0x66A3,n:11},
+  {g:'boot-strings',id:'s-init',        lb:'Init message',             a:0x49E6,n:7 },
+  {g:'boot-strings',id:'s-loading',     lb:'Loading message',          a:0x49EE,n:13},
+  {g:'boot-strings',id:'s-autherr',     lb:'Auth error message',       a:0x0804,n:20},
 ];
 
-var CGB_ADDRS  = [0x6537, 0x6539, 0x653B, 0x653D];
-var CGB_NAMES  = ['Background (color 0)', 'Text / foreground (color 1)', 'Selected item (color 2)', 'Border / inactive (color 3)'];
+var TAB_GROUPS = {
+  colors:['colors'], menus:['main-nav','file-menu','settings','filebrowser'],
+  cheats:['cheats'], saves:['saveram','flash'], about:['about','devinfo','cartinfo','mapper','romsizes'],
+  system:['header','paths','exts','optvals','sep','error'], boot:['boot-strings','boot-jump']
+};
+
+var CGB_ADDRS  = [0x6537,0x6539,0x653B,0x653D];
+var CGB_NAMES  = ['Background (color 0)','Text / foreground (color 1)','Selected item (color 2)','Border / inactive (color 3)'];
 var BGP_ADDR   = 0x64BC;
 var SHADE_NAMES= ['White','Light gray','Dark gray','Black'];
 var SHADE_CSS  = ['#f8f8f8','#aaaaaa','#555555','#111111'];
-
 var THEMES = [
-  {name:'Original',  c:['#f8f8f8','#000000','#98d8e0','#000000']},
-  {name:'Gameboy',   c:['#9bbc0f','#0f380f','#306230','#8bac0f']},
-  {name:'Night',     c:['#0d0d1a','#c8d8ff','#4466ff','#334488']},
-  {name:'Red',       c:['#fff0f0','#1a0000','#cc0000','#660000']},
-  {name:'Purple',    c:['#f5f0ff','#1a0033','#7722cc','#441166']},
-  {name:'Amber',     c:['#fdf6e3','#1a0900','#e08800','#6b3300']},
-  {name:'Ice',       c:['#e8f4ff','#001433','#0088cc','#003366']},
-  {name:'Forest',    c:['#f0fff0','#001400','#228822','#004400']},
-  {name:'Slate',     c:['#e8eaf0','#12161e','#3a6ea5','#243550']},
-  {name:'Rose',      c:['#fff0f4','#1a0008','#cc2255','#660022']},
+  {name:'Original', c:['#f8f8f8','#000000','#98d8e0','#000000']},
+  {name:'Gameboy',  c:['#9bbc0f','#0f380f','#306230','#8bac0f']},
+  {name:'Night',    c:['#0d0d1a','#c8d8ff','#4466ff','#334488']},
+  {name:'Red',      c:['#fff0f0','#1a0000','#cc0000','#660000']},
+  {name:'Purple',   c:['#f5f0ff','#1a0033','#7722cc','#441166']},
+  {name:'Amber',    c:['#fdf6e3','#1a0900','#e08800','#6b3300']},
+  {name:'Ice',      c:['#e8f4ff','#001433','#0088cc','#003366']},
+  {name:'Forest',   c:['#f0fff0','#001400','#228822','#004400']},
+  {name:'Slate',    c:['#e8eaf0','#12161e','#3a6ea5','#243550']},
+  {name:'Rose',     c:['#fff0f4','#1a0008','#cc2255','#660022']},
 ];
 
-var orig    = null;
-var fname   = 'GBOS_patched.GB';
-var cgbCols = ['#f8f8f8','#000000','#98d8e0','#000000'];
-var dmgMap  = [0,3,1,3];
+var orig=null, fname='GBOS_patched.GB';
+var cgbCols=['#f8f8f8','#000000','#98d8e0','#000000'];
+var dmgMap=[0,3,1,3];
+var origStrings={};
 
-/* ---- BUILD FIELD TABLES ---- */
-function buildUI() {
-  var groups = [];
-  STRINGS.forEach(function(s) {
-    if (groups.indexOf(s.g) === -1) groups.push(s.g);
-  });
-  groups.forEach(function(g) {
-    var tbl = document.getElementById('grp-' + g);
-    if (!tbl) return;
-    var fields = STRINGS.filter(function(s){ return s.g === g; });
-    fields.forEach(function(s) {
-      var tr = document.createElement('tr');
-      tr.innerHTML =
-        '<td class="field-label">' + esc(s.lb) + (s.w ? ' <span class="badge-warn">caution</span>' : '') + '</td>' +
-        '<td style="width:100%"><input class="field-input' + (s.w ? ' warn-field' : '') + '" id="' + s.id + '" maxlength="' + s.n + '" size="30"></td>' +
-        '<td class="field-rem" id="rem-' + s.id + '">' + s.n + '</td>' +
-        '<td class="field-addr">0x' + s.a.toString(16).toUpperCase().padStart(4,'0') + '</td>';
+/* ---- BUILD FIELD UI ---- */
+function buildUI(){
+  var groups=[];
+  STRINGS.forEach(function(s){if(groups.indexOf(s.g)===-1)groups.push(s.g);});
+  groups.forEach(function(g){
+    var tbl=document.getElementById('grp-'+g); if(!tbl)return;
+    STRINGS.filter(function(s){return s.g===g;}).forEach(function(s){
+      var tt=TOOLTIPS[s.id]||'';
+      var lbHtml=tt
+        ?'<span class="tt" data-tip="'+esc(tt)+'">'+esc(s.lb)+'</span>'
+        :esc(s.lb);
+      var tr=document.createElement('tr');
+      tr.id='row-'+s.id;
+      tr.innerHTML=
+        '<td class="f-label">'+lbHtml+(s.w?' <span class="badge-warn">caution</span>':'')+'</td>'+
+        '<td style="width:100%"><input class="f-inp'+(s.w?' warn-field':'')+'" id="'+s.id+'" maxlength="'+s.n+'" size="30" autocomplete="off" spellcheck="false"></td>'+
+        '<td><button class="f-revert" id="rev-'+s.id+'" onclick="revertField(\''+s.id+'\')" title="Revert to original">&#8617;</button></td>'+
+        '<td class="f-rem" id="rem-'+s.id+'">'+s.n+'</td>'+
+        '<td class="f-addr">0x'+s.a.toString(16).toUpperCase().padStart(4,'0')+'</td>';
       tbl.appendChild(tr);
-      var inp = tr.querySelector('input');
-      var rem = tr.querySelector('.field-rem');
-      inp.addEventListener('input', function() {
-        var r = s.n - inp.value.length;
-        rem.textContent = r;
-        rem.className = 'field-rem' + (r===0?' zero':r<=2?' low':'');
+      var inp=tr.querySelector('input');
+      inp.addEventListener('input',function(){
+        updateRem(s);
+        markChanged(s.id);
+        updateStats();
+        updatePreview();
       });
     });
   });
-
-  /* boot jump rows */
-  var bjg = document.getElementById('grp-boot-jump');
-  if (bjg) {
-    bjg.innerHTML =
-      '<tr><td class="field-label">Jump addr lo byte</td>' +
-      '<td><input class="field-input" id="b-boot-lo" maxlength="4" size="8"></td>' +
-      '<td></td><td class="field-addr">0x0101</td></tr>' +
-      '<tr><td class="field-label">Jump addr hi byte</td>' +
-      '<td><input class="field-input" id="b-boot-hi" maxlength="4" size="8"></td>' +
-      '<td></td><td class="field-addr">0x0102</td></tr>';
+  /* boot jump */
+  var bjg=document.getElementById('grp-boot-jump');
+  if(bjg){
+    bjg.innerHTML=
+      '<tr><td class="f-label">Jump addr lo byte</td><td><input class="f-inp" id="b-boot-lo" maxlength="4" size="8" autocomplete="off"></td><td></td><td></td><td class="f-addr">0x0101</td></tr>'+
+      '<tr><td class="f-label">Jump addr hi byte</td><td><input class="f-inp" id="b-boot-hi" maxlength="4" size="8" autocomplete="off"></td><td></td><td></td><td class="f-addr">0x0102</td></tr>';
   }
-
-  buildCGBUI();
-  buildDMGUI();
-  buildThemes();
+  buildCGBUI();buildDMGUI();buildThemes();
+  wireTooltips();
+  document.getElementById('stat-total').textContent=STRINGS.length;
 }
 
-function buildCGBUI() {
-  var tbl = document.getElementById('cgb-color-table');
-  if (!tbl) return;
-  tbl.innerHTML = '';
-  cgbCols.forEach(function(hex, i) {
-    var tr = document.createElement('tr');
-    tr.innerHTML =
-      '<td style="padding:3px 4px 3px 0"><div class="color-picker-wrap"><input type="color" class="color-picker" id="cp-' + i + '" value="' + hex + '"></div></td>' +
-      '<td style="padding:3px 4px"><input type="text" class="color-hex-inp" id="ch-' + i + '" maxlength="7" value="' + hex + '"></td>' +
-      '<td><span class="color-name-td">' + CGB_NAMES[i] + '</span></td>';
-    tbl.appendChild(tr);
-    var cp = tr.querySelector('#cp-' + i);
-    var ch = tr.querySelector('#ch-' + i);
-    cp.addEventListener('input', function() { cgbCols[i]=cp.value; ch.value=cp.value; updatePreview(); });
-    ch.addEventListener('input', function() {
-      if (/^#[0-9a-fA-F]{6}$/.test(ch.value)) { cgbCols[i]=ch.value; cp.value=ch.value; updatePreview(); }
+function updateRem(s){
+  var el=document.getElementById(s.id);
+  var rem=document.getElementById('rem-'+s.id);
+  if(!el||!rem)return;
+  var r=s.n-el.value.length;
+  rem.textContent=r;
+  rem.className='f-rem'+(r===0?' zero':r<=2?' low':'');
+}
+
+function markChanged(id){
+  var el=document.getElementById(id);
+  var rev=document.getElementById('rev-'+id);
+  var row=document.getElementById('row-'+id);
+  if(!el||!origStrings[id]&&origStrings[id]!=='')return;
+  var changed=el.value!==origStrings[id];
+  el.className=el.className.replace(/ changed/g,'')+(changed?' changed':'');
+  if(row) row.className=changed?'f-row-changed':'';
+  if(rev) rev.className='f-revert'+(changed?' show':'');
+}
+
+function revertField(id){
+  var el=document.getElementById(id);
+  if(!el||origStrings[id]===undefined)return;
+  el.value=origStrings[id];
+  var s=STRINGS.filter(function(x){return x.id===id;})[0];
+  if(s){updateRem(s);}
+  markChanged(id);
+  updateStats();
+  updatePreview();
+}
+
+function updateStats(){
+  var changed=0;
+  var tabsChanged={};
+  STRINGS.forEach(function(s){
+    var el=document.getElementById(s.id);
+    if(el&&origStrings[s.id]!==undefined&&el.value!==origStrings[s.id]){
+      changed++;
+      Object.keys(TAB_GROUPS).forEach(function(tab){
+        if(TAB_GROUPS[tab].indexOf(s.g)!==-1) tabsChanged[tab]=true;
+      });
+    }
+  });
+  /* color changes */
+  var colorChanged=false;
+  CGB_ADDRS.forEach(function(a,i){
+    if(!orig)return;
+    var cur=hexToRgb555(cgbCols[i]);
+    if(cur[0]!==orig[a]||cur[1]!==orig[a+1])colorChanged=true;
+  });
+  var bgp=0; dmgMap.forEach(function(s,i){bgp|=(s<<(i*2));});
+  if(orig&&bgp!==orig[BGP_ADDR])colorChanged=true;
+  if(colorChanged)tabsChanged['colors']=true;
+
+  document.getElementById('stat-changed').textContent=changed+(colorChanged?'+':'');
+  document.getElementById('stat-tabs').textContent=Object.keys(tabsChanged).length;
+  document.getElementById('nav-change-count').textContent=changed+(colorChanged?'+':'');
+
+  /* tab dots */
+  Object.keys(TAB_GROUPS).forEach(function(tab){
+    var dot=document.getElementById('dot-'+tab);
+    if(dot) dot.className='changed-dot'+(tabsChanged[tab]?' on':'');
+  });
+}
+
+/* ---- SEARCH ---- */
+function doSearch(q){
+  q=q.trim().toLowerCase();
+  var count=0,visible=0;
+  STRINGS.forEach(function(s){
+    var el=document.getElementById(s.id);
+    var row=document.getElementById('row-'+s.id);
+    if(!el||!row)return;
+    visible++;
+    if(!q){
+      row.style.display='';
+      count++;
+      return;
+    }
+    var labelMatch=s.lb.toLowerCase().indexOf(q)!==-1;
+    var valueMatch=el.value.toLowerCase().indexOf(q)!==-1;
+    var addrMatch=('0x'+s.a.toString(16).toUpperCase()).toLowerCase().indexOf(q)!==-1;
+    var show=labelMatch||valueMatch||addrMatch;
+    row.style.display=show?'':'none';
+    if(show)count++;
+  });
+  var sc=document.getElementById('search-count');
+  if(q) sc.textContent=count+' of '+STRINGS.length+' fields match';
+  else sc.textContent='';
+}
+
+/* ---- TOOLTIPS ---- */
+function wireTooltips(){
+  var tip=document.getElementById('tooltip');
+  document.addEventListener('mousemove',function(e){
+    if(tip.style.display==='block'){
+      tip.style.left=Math.min(e.clientX+12,window.innerWidth-240)+'px';
+      tip.style.top=(e.clientY+18)+'px';
+    }
+  });
+  document.querySelectorAll('.tt').forEach(function(el){
+    el.addEventListener('mouseenter',function(){
+      tip.textContent=el.getAttribute('data-tip');
+      tip.style.display='block';
     });
+    el.addEventListener('mouseleave',function(){tip.style.display='none';});
+  });
+}
+
+/* ---- COLORS ---- */
+function buildCGBUI(){
+  var tbl=document.getElementById('cgb-color-tbl');
+  if(!tbl)return;
+  tbl.innerHTML='';
+  cgbCols.forEach(function(hex,i){
+    var tr=document.createElement('tr');
+    tr.innerHTML=
+      '<td style="padding:3px 3px 3px 0"><div class="cpwrap"><input type="color" class="cpick" id="cp-'+i+'" value="'+hex+'"></div></td>'+
+      '<td style="padding:3px 4px"><input type="text" class="chex" id="ch-'+i+'" maxlength="7" value="'+hex+'" spellcheck="false"></td>'+
+      '<td><span class="c-name">'+CGB_NAMES[i]+'</span></td>';
+    tbl.appendChild(tr);
+    var cp=tr.querySelector('#cp-'+i),ch=tr.querySelector('#ch-'+i);
+    cp.addEventListener('input',function(){cgbCols[i]=cp.value;ch.value=cp.value;updatePreview();updateStats();});
+    ch.addEventListener('input',function(){if(/^#[0-9a-fA-F]{6}$/.test(ch.value)){cgbCols[i]=ch.value;cp.value=ch.value;updatePreview();updateStats();}});
   });
   updatePreview();
 }
 
-function buildDMGUI() {
-  var tbl = document.getElementById('dmg-table');
-  if (!tbl) return;
-  tbl.innerHTML = '';
-  ['Background (color 0)','Text (color 1)','Selected (color 2)','Border (color 3)'].forEach(function(lbl, i) {
-    var tr = document.createElement('tr');
-    var opts = SHADE_NAMES.map(function(n,j){ return '<option value="'+j+'"'+(dmgMap[i]===j?' selected':'')+'>'+n+'</option>'; }).join('');
-    tr.innerHTML =
-      '<td><div class="dmg-swatch" id="dsw-' + i + '" style="background:' + SHADE_CSS[dmgMap[i]] + '"></div></td>' +
-      '<td style="font-size:11px;color:#334466;white-space:nowrap;padding-right:10px">' + lbl + '</td>' +
-      '<td><select class="dmg-sel" id="dsel-' + i + '">' + opts + '</select></td>';
+function buildDMGUI(){
+  var tbl=document.getElementById('dmg-tbl');
+  if(!tbl)return;tbl.innerHTML='';
+  ['Background (color 0)','Text (color 1)','Selected (color 2)','Border (color 3)'].forEach(function(lbl,i){
+    var tr=document.createElement('tr');
+    var opts=SHADE_NAMES.map(function(n,j){return '<option value="'+j+'"'+(dmgMap[i]===j?' selected':'')+'>'+n+'</option>';}).join('');
+    tr.innerHTML='<td><div class="dmg-swatch" id="dsw-'+i+'" style="background:'+SHADE_CSS[dmgMap[i]]+'"></div></td>'+
+      '<td style="font-size:11px;color:#2a3a5a;white-space:nowrap;padding-right:10px">'+lbl+'</td>'+
+      '<td><select class="dmg-sel" id="dsel-'+i+'">'+opts+'</select></td>';
     tbl.appendChild(tr);
-    tr.querySelector('#dsel-' + i).addEventListener('change', function() {
-      dmgMap[i] = parseInt(this.value);
-      document.getElementById('dsw-' + i).style.background = SHADE_CSS[dmgMap[i]];
-      updateBGP();
+    tr.querySelector('#dsel-'+i).addEventListener('change',function(){
+      dmgMap[i]=parseInt(this.value);
+      document.getElementById('dsw-'+i).style.background=SHADE_CSS[dmgMap[i]];
+      updateBGP();updateStats();
     });
   });
   updateBGP();
 }
 
-function buildThemes() {
-  var cont = document.getElementById('theme-btns');
-  if (!cont) return;
-  cont.innerHTML = '';
-  THEMES.forEach(function(t) {
-    var btn = document.createElement('button');
-    btn.className = 'theme-btn';
-    var sw = t.c.map(function(c){ return '<span class="tsw" style="background:'+c+'"></span>'; }).join('');
-    btn.innerHTML = '<span class="theme-swatches">'+sw+'</span>' + esc(t.name);
-    btn.onclick = function() { cgbCols = t.c.slice(); buildCGBUI(); };
+function buildThemes(){
+  var cont=document.getElementById('theme-btns');if(!cont)return;cont.innerHTML='';
+  THEMES.forEach(function(t){
+    var btn=document.createElement('button');btn.className='theme-btn';
+    var sw=t.c.map(function(c){return '<span class="tsw" style="background:'+c+'"></span>';}).join('');
+    btn.innerHTML='<span class="tswatches">'+sw+'</span>'+esc(t.name);
+    btn.onclick=function(){cgbCols=t.c.slice();buildCGBUI();updateStats();};
     cont.appendChild(btn);
   });
 }
 
-function updatePreview() {
-  var scr = document.getElementById('gb-preview');
-  if (!scr) return;
-  var bg=cgbCols[0], fg=cgbCols[1], sel=cgbCols[2], brd=cgbCols[3];
-  scr.style.background = bg;
-  var title = gv('s-filemenu') || 'File Menu';
-  var items = [
-    {t:'> '+(gv('s-loadstart')||'Load And Start'), s:true },
-    {t:'  '+(gv('s-loadonly') ||'Load Only'),      s:false},
-    {t:'  '+(gv('s-loadcheats')||'Load cheats'),   s:false},
-    {t:'  '+(gv('s-cancel')   ||'Cancel'),         s:false},
+function updatePreview(){
+  var scr=document.getElementById('gb-preview');if(!scr)return;
+  var bg=cgbCols[0],fg=cgbCols[1],sel=cgbCols[2],brd=cgbCols[3];
+  scr.style.background=bg;
+  var title=gv('s-filemenu')||'File Menu';
+  var items=[
+    {t:'> '+(gv('s-loadstart')||'Load And Start'),s:true},
+    {t:'  '+(gv('s-loadonly')||'Load Only'),s:false},
+    {t:'  '+(gv('s-loadcheats')||'Load cheats'),s:false},
+    {t:'  '+(gv('s-cancel')||'Cancel'),s:false},
   ];
-  scr.innerHTML =
-    '<div style="font-weight:bold;color:'+fg+';border-bottom:1px solid '+brd+';margin-bottom:6px;padding-bottom:3px">'+esc(title)+'</div>' +
-    items.map(function(it){
-      return '<div class="gb-item" style="background:'+(it.s?sel:bg)+';color:'+(it.s?bg:fg)+'">'+esc(it.t)+'</div>';
-    }).join('');
+  scr.innerHTML='<div style="font-weight:bold;color:'+fg+';border-bottom:1px solid '+brd+';margin-bottom:5px;padding-bottom:3px;font-size:13px">'+esc(title)+'</div>'+
+    items.map(function(it){return '<div class="gb-item" style="background:'+(it.s?sel:bg)+';color:'+(it.s?bg:fg)+'">'+esc(it.t)+'</div>';}).join('');
 }
 
-function updateBGP() {
-  var bgp = 0;
-  dmgMap.forEach(function(s,i){ bgp |= (s << (i*2)); });
-  var el = document.getElementById('bgp-val');
-  if (el) el.textContent = '0x' + bgp.toString(16).toUpperCase().padStart(2,'0');
+function updateBGP(){
+  var bgp=0;dmgMap.forEach(function(s,i){bgp|=(s<<(i*2));});
+  sv('bgp-val','0x'+bgp.toString(16).toUpperCase().padStart(2,'0'));
 }
 
-/* ---- ROM LOAD ---- */
-function handleDrop(e) {
-  e.preventDefault();
-  document.getElementById('drop').classList.remove('drag');
-  if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
-}
+/* ---- LOAD ROM ---- */
+function handleDrop(e){e.preventDefault();document.getElementById('drop').classList.remove('drag');if(e.dataTransfer.files[0])loadFile(e.dataTransfer.files[0]);}
 
-function loadFile(f) {
-  if (!f) return;
-  fname = f.name.replace(/\.[^.]+$/, '') + '_patched.GB';
-  var r = new FileReader();
-  r.onload = function(ev) {
-    orig = new Uint8Array(ev.target.result);
-    showSt('status-load','ok','Loaded: ' + f.name + ' (' + orig.length + ' bytes)');
-    populateInfo();
-    populateFields();
-    readCGB();
-    readDMG();
-    buildCGBUI();
-    buildDMGUI();
-    document.getElementById('rominfo').style.display = 'block';
-    document.getElementById('upload-panel').style.display = 'none';
-    document.getElementById('editor-panel').style.display = 'block';
+function loadFile(f){
+  if(!f)return;
+  fname=f.name.replace(/\.[^.]+$/,'')+'_patched.GB';
+  var r=new FileReader();
+  r.onload=function(ev){
+    orig=new Uint8Array(ev.target.result);
+    showSt('status-load','ok','Loaded: '+f.name+' ('+orig.length+' bytes)');
+    populateInfo();populateFields();
+    readCGB();readDMG();
+    buildCGBUI();buildDMGUI();
+    document.getElementById('rominfo').style.display='flex';
+    document.getElementById('upload-panel').style.display='none';
+    document.getElementById('editor-panel').style.display='block';
+    document.getElementById('stat-size').textContent=(orig.length/1024)+'KB';
+    updateStats();
   };
   r.readAsArrayBuffer(f);
 }
 
-function populateInfo() {
-  var d = orig;
-  var title = [];
-  for (var i=0x134;i<0x143;i++) { var b=d[i]; if(b>=0x20&&b<=0x7e) title.push(String.fromCharCode(b)); else if(b===0) break; }
-  var cgbMap  = {0x80:'CGB compat',0xC0:'CGB only',0x00:'DMG'};
-  var mprMap  = {0x00:'ROM ONLY',0x01:'MBC1',0x02:'MBC1+RAM',0x03:'MBC1+BAT',0x05:'MBC2',0x0F:'MBC3+RTC',0x13:'MBC3+BAT',0x19:'MBC5',0x1B:'MBC5+BAT'};
-  sv('inf-title',  title.join('').trim() || '???');
-  sv('inf-size',   (d.length/1024) + 'KB');
-  sv('inf-cgb',    cgbMap[d[0x143]] || '0x'+d[0x143].toString(16).toUpperCase());
-  sv('inf-mapper', mprMap[d[0x147]] || '0x'+d[0x147].toString(16).toUpperCase());
-  sv('inf-ck',     '0x'+d[0x14D].toString(16).toUpperCase());
+function populateInfo(){
+  var d=orig;
+  var title=[];
+  for(var i=0x134;i<0x143;i++){var b=d[i];if(b>=0x20&&b<=0x7e)title.push(String.fromCharCode(b));else if(b===0)break;}
+  var cgbMap={0x80:'CGB compat',0xC0:'CGB only',0x00:'DMG'};
+  var mprMap={0x00:'ROM ONLY',0x01:'MBC1',0x02:'MBC1+RAM',0x03:'MBC1+BAT',0x05:'MBC2',0x0F:'MBC3+RTC',0x13:'MBC3+BAT',0x19:'MBC5',0x1B:'MBC5+BAT'};
+  sv('inf-title',title.join('').trim()||'???');
+  sv('inf-size',(d.length/1024)+'KB');
+  sv('inf-cgb',cgbMap[d[0x143]]||'0x'+d[0x143].toString(16).toUpperCase());
+  sv('inf-mapper',mprMap[d[0x147]]||'0x'+d[0x147].toString(16).toUpperCase());
+  sv('inf-ck','0x'+d[0x14D].toString(16).toUpperCase());
 }
 
-function populateFields() {
-  STRINGS.forEach(function(s) {
-    var el = document.getElementById(s.id);
-    if (!el) return;
-    var str = '';
-    for (var i=0;i<s.n;i++) {
-      var b = orig[s.a+i];
-      if (b===0x00) break;
-      if (b>=0x20&&b<=0x7e) str += String.fromCharCode(b);
-    }
-    el.value = str;
-    var rem = document.getElementById('rem-'+s.id);
-    if (rem) {
-      var r = s.n - str.length;
-      rem.textContent = r;
-      rem.className = 'field-rem'+(r===0?' zero':r<=2?' low':'');
-    }
+function populateFields(){
+  origStrings={};
+  STRINGS.forEach(function(s){
+    var el=document.getElementById(s.id);if(!el)return;
+    var str='';
+    for(var i=0;i<s.n;i++){var b=orig[s.a+i];if(b===0x00)break;if(b>=0x20&&b<=0x7e)str+=String.fromCharCode(b);}
+    el.value=str;
+    origStrings[s.id]=str;
+    updateRem(s);
+    markChanged(s.id);
   });
-  sv2('b-boot-lo', '0x'+orig[0x101].toString(16).toUpperCase().padStart(2,'0'));
-  sv2('b-boot-hi', '0x'+orig[0x102].toString(16).toUpperCase().padStart(2,'0'));
+  sv2('b-boot-lo','0x'+orig[0x101].toString(16).toUpperCase().padStart(2,'0'));
+  sv2('b-boot-hi','0x'+orig[0x102].toString(16).toUpperCase().padStart(2,'0'));
   updatePreview();
 }
 
-function readCGB() {
-  cgbCols = CGB_ADDRS.map(function(a){ return rgb555ToHex(orig[a], orig[a+1]); });
-}
-
-function readDMG() {
-  var bgp = orig[BGP_ADDR];
-  for (var i=0;i<4;i++) dmgMap[i] = (bgp>>(i*2))&3;
-}
+function readCGB(){cgbCols=CGB_ADDRS.map(function(a){return rgb555ToHex(orig[a],orig[a+1]);});}
+function readDMG(){var bgp=orig[BGP_ADDR];for(var i=0;i<4;i++)dmgMap[i]=(bgp>>(i*2))&3;}
 
 /* ---- BUILD ROM ---- */
-function buildROM() {
-  var out = new Uint8Array(orig.length);
-  out.set(orig);
-
-  STRINGS.forEach(function(s) {
-    var el = document.getElementById(s.id);
-    if (!el) return;
-    var val = el.value.substring(0, s.n);
-    for (var i=0;i<s.n;i++) out[s.a+i] = i<val.length ? val.charCodeAt(i) : 0x00;
+function buildROM(){
+  var out=new Uint8Array(orig.length);out.set(orig);
+  STRINGS.forEach(function(s){
+    var el=document.getElementById(s.id);if(!el)return;
+    var val=el.value.substring(0,s.n);
+    for(var i=0;i<s.n;i++)out[s.a+i]=i<val.length?val.charCodeAt(i):0x00;
   });
-
-  var pb = function(v) { v=v.trim(); return v.toLowerCase().indexOf('0x')===0 ? parseInt(v,16) : parseInt(v,10); };
-  var lo=pb(gv('b-boot-lo')), hi=pb(gv('b-boot-hi'));
-  if (!isNaN(lo)) out[0x101] = lo & 0xFF;
-  if (!isNaN(hi)) out[0x102] = hi & 0xFF;
-
-  if (!document.getElementById('t-initmsg').checked) {
-    out[0x49E6] = 0x00;
-    out[0x49EE] = 0x00;
-  }
-
-  cgbCols.forEach(function(hex, i) {
-    var pair = hexToRgb555(hex);
-    out[CGB_ADDRS[i]]   = pair[0];
-    out[CGB_ADDRS[i]+1] = pair[1];
-  });
-
-  var bgp = 0;
-  dmgMap.forEach(function(s,i){ bgp |= (s<<(i*2)); });
-  out[BGP_ADDR] = bgp;
-
-  var ck = 0;
-  for (var i=0x134;i<=0x14C;i++) ck = (ck - out[i] - 1) & 0xFF;
-  out[0x14D] = ck;
-
-  var link = document.getElementById('dl-link');
-  link.href     = 'data:application/octet-stream;base64,' + toB64(out);
-  link.download = fname;
-  sv('dl-fname', fname);
-  document.getElementById('dl-area').style.display = 'block';
-  showSt('build-status','ok','Build OK: ' + out.length + ' bytes | checksum 0x' + ck.toString(16).toUpperCase() + ' -> 0x014D');
-  sv('inf-ck', '0x'+ck.toString(16).toUpperCase());
-}
-
-/* ---- ADVANCED ---- */
-function applyAdv() {
-  var ar = gv('adv-addr');
-  var addr = ar.toLowerCase().indexOf('0x')===0 ? parseInt(ar,16) : parseInt(ar,10);
-  if (isNaN(addr)||addr<0||addr>=orig.length) { showSt('adv-status','err','Invalid address'); return; }
-  var parts = gv('adv-bytes').trim().split(/\s+/);
-  var bytes = parts.map(function(p){ return parseInt(p,16); });
-  if (bytes.some(isNaN)||!bytes.length) { showSt('adv-status','err','Invalid hex bytes'); return; }
-  if (addr+bytes.length>orig.length) { showSt('adv-status','err','Patch extends past ROM end'); return; }
-  bytes.forEach(function(b,i){ orig[addr+i]=b; });
-  showSt('adv-status','ok','Wrote ' + bytes.length + ' byte(s) at 0x' + addr.toString(16).toUpperCase());
-}
-
-function fixCk() {
-  if (!orig) return;
-  var ck=0;
-  for (var i=0x134;i<=0x14C;i++) ck=(ck-orig[i]-1)&0xFF;
-  orig[0x14D]=ck;
-  showSt('ck-status','ok','Checksum 0x'+ck.toString(16).toUpperCase()+' written to 0x014D');
+  var pb=function(v){v=v.trim();return v.toLowerCase().indexOf('0x')===0?parseInt(v,16):parseInt(v,10);};
+  var lo=pb(gv('b-boot-lo')),hi=pb(gv('b-boot-hi'));
+  if(!isNaN(lo))out[0x101]=lo&0xFF;
+  if(!isNaN(hi))out[0x102]=hi&0xFF;
+  if(!document.getElementById('t-initmsg').checked){out[0x49E6]=0x00;out[0x49EE]=0x00;}
+  cgbCols.forEach(function(hex,i){var p=hexToRgb555(hex);out[CGB_ADDRS[i]]=p[0];out[CGB_ADDRS[i]+1]=p[1];});
+  var bgp=0;dmgMap.forEach(function(s,i){bgp|=(s<<(i*2));});out[BGP_ADDR]=bgp;
+  var ck=0;for(var i=0x134;i<=0x14C;i++)ck=(ck-out[i]-1)&0xFF;out[0x14D]=ck;
+  /* ROM download */
+  var link=document.getElementById('dl-link');
+  link.href='data:application/octet-stream;base64,'+toB64(out);
+  link.download=fname;
+  sv('dl-fname',fname);
+  /* IPS patch */
+  var ips=buildIPS(orig,out);
+  var ipsLink=document.getElementById('dl-ips');
+  ipsLink.href='data:application/octet-stream;base64,'+toB64(ips);
+  ipsLink.download=fname.replace('_patched.GB','_patch.ips');
+  document.getElementById('dl-area').style.display='block';
+  showSt('build-status','ok','Build OK: '+out.length+' bytes | checksum 0x'+ck.toString(16).toUpperCase()+' | IPS: '+ips.length+' bytes');
   sv('inf-ck','0x'+ck.toString(16).toUpperCase());
 }
 
-function hexView() {
-  var ar = gv('hv-addr');
-  var addr = ar.toLowerCase().indexOf('0x')===0 ? parseInt(ar,16) : parseInt(ar,10);
-  if (isNaN(addr)||addr<0||addr>=orig.length) return;
-  var out = document.getElementById('hv-out');
-  var lines = '';
-  for (var row=0;row<4;row++) {
-    var base=addr+row*16; if(base>=orig.length) break;
-    var hex='', asc='';
-    for (var col=0;col<16;col++) {
-      var idx=base+col;
-      if (idx<orig.length) {
-        var b=orig[idx];
-        hex += b.toString(16).toUpperCase().padStart(2,'0') + ' ';
-        asc += (b>=0x20&&b<=0x7e) ? String.fromCharCode(b) : '.';
-      } else { hex+='   '; asc+=' '; }
-    }
-    var padded = hex.trimRight(); while(padded.length<47) padded+=' ';
-    lines += '0x'+base.toString(16).toUpperCase().padStart(4,'0')+'  '+padded+'  |'+asc+'|\n';
+/* ---- IPS EXPORT ---- */
+function buildIPS(original,patched){
+  /* IPS format: PATCH + records (3-byte offset BE, 2-byte length BE, data) + EOF */
+  var records=[];
+  var i=0;
+  while(i<original.length){
+    if(original[i]!==patched[i]){
+      var start=i;
+      while(i<original.length&&i-start<65535&&original[i]!==patched[i])i++;
+      var chunk=patched.slice(start,i);
+      records.push({offset:start,data:chunk});
+    } else {i++;}
   }
-  out.textContent = lines;
-  out.style.display = 'block';
+  /* build binary */
+  var size=5; /* PATCH */
+  records.forEach(function(r){size+=3+2+r.data.length;});
+  size+=3; /* EOF */
+  var out=new Uint8Array(size);
+  var pos=0;
+  /* PATCH header */
+  [0x50,0x41,0x54,0x43,0x48].forEach(function(b){out[pos++]=b;});
+  records.forEach(function(r){
+    out[pos++]=(r.offset>>16)&0xFF;
+    out[pos++]=(r.offset>>8)&0xFF;
+    out[pos++]=r.offset&0xFF;
+    out[pos++]=(r.data.length>>8)&0xFF;
+    out[pos++]=r.data.length&0xFF;
+    r.data.forEach(function(b){out[pos++]=b;});
+  });
+  /* EOF */
+  [0x45,0x4F,0x46].forEach(function(b){out[pos++]=b;});
+  return out;
+}
+
+/* ---- PATCH SUMMARY MODAL ---- */
+function showSummary(){
+  var changes=[];
+  STRINGS.forEach(function(s){
+    var el=document.getElementById(s.id);
+    if(!el||origStrings[s.id]===undefined)return;
+    if(el.value!==origStrings[s.id]){
+      var tab='?';
+      Object.keys(TAB_GROUPS).forEach(function(t){if(TAB_GROUPS[t].indexOf(s.g)!==-1)tab=t;});
+      changes.push({label:s.lb,old:origStrings[s.id],nw:el.value,tab:tab,addr:'0x'+s.a.toString(16).toUpperCase().padStart(4,'0')});
+    }
+  });
+  /* color changes */
+  CGB_ADDRS.forEach(function(a,i){
+    if(!orig)return;
+    var cur=hexToRgb555(cgbCols[i]);
+    if(cur[0]!==orig[a]||cur[1]!==orig[a+1]){
+      changes.push({label:'CGB color '+i+' ('+CGB_NAMES[i]+')',old:rgb555ToHex(orig[a],orig[a+1]),nw:cgbCols[i],tab:'colors',addr:'0x'+a.toString(16).toUpperCase().padStart(4,'0')});
+    }
+  });
+  var bgp=0;dmgMap.forEach(function(s,i){bgp|=(s<<(i*2));});
+  if(orig&&bgp!==orig[BGP_ADDR]){
+    changes.push({label:'DMG BGP register',old:'0x'+orig[BGP_ADDR].toString(16).toUpperCase(),nw:'0x'+bgp.toString(16).toUpperCase(),tab:'colors',addr:'0x'+BGP_ADDR.toString(16).toUpperCase()});
+  }
+  var body=document.getElementById('summary-body');
+  if(changes.length===0){
+    body.innerHTML='<div class="summary-empty">No changes detected. All fields match the original ROM.</div>';
+  } else {
+    var rows=changes.map(function(c){
+      return '<tr><td class="summary-tab">'+esc(c.tab)+'</td><td style="font-size:11px;color:#1a2e4a">'+esc(c.label)+'</td>'+
+        '<td><span class="summary-old">'+esc(c.old||'(empty)')+'</span><br><span class="summary-new">'+esc(c.nw||'(empty)')+'</span></td>'+
+        '<td class="summary-tab">'+esc(c.addr)+'</td></tr>';
+    }).join('');
+    body.innerHTML='<table class="summary-table"><thead><tr><th>Tab</th><th>Field</th><th>Old &rarr; New</th><th>Addr</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  }
+  sv('summary-count-line',changes.length+' change'+(changes.length===1?'':'s')+' pending');
+  document.getElementById('summary-modal').className='modal-overlay open';
+}
+
+function closeModal(){document.getElementById('summary-modal').className='modal-overlay';}
+
+/* ---- ADVANCED ---- */
+function applyAdv(){
+  var ar=gv('adv-addr');
+  var addr=ar.toLowerCase().indexOf('0x')===0?parseInt(ar,16):parseInt(ar,10);
+  if(isNaN(addr)||addr<0||addr>=orig.length){showSt('adv-status','err','Invalid address');return;}
+  var bytes=gv('adv-bytes').trim().split(/\s+/).map(function(p){return parseInt(p,16);});
+  if(bytes.some(isNaN)||!bytes.length){showSt('adv-status','err','Invalid hex bytes');return;}
+  if(addr+bytes.length>orig.length){showSt('adv-status','err','Extends past ROM end');return;}
+  bytes.forEach(function(b,i){orig[addr+i]=b;});
+  showSt('adv-status','ok','Wrote '+bytes.length+' byte(s) at 0x'+addr.toString(16).toUpperCase());
+}
+
+function fixCk(){
+  if(!orig)return;
+  var ck=0;for(var i=0x134;i<=0x14C;i++)ck=(ck-orig[i]-1)&0xFF;
+  orig[0x14D]=ck;
+  showSt('ck-status','ok','Checksum 0x'+ck.toString(16).toUpperCase()+' -> 0x014D');
+  sv('inf-ck','0x'+ck.toString(16).toUpperCase());
+}
+
+function hexView(){
+  var ar=gv('hv-addr');
+  var addr=ar.toLowerCase().indexOf('0x')===0?parseInt(ar,16):parseInt(ar,10);
+  if(isNaN(addr)||addr<0||addr>=orig.length)return;
+  var out=document.getElementById('hv-out'),lines='';
+  for(var row=0;row<4;row++){
+    var base=addr+row*16;if(base>=orig.length)break;
+    var hex='',asc='';
+    for(var col=0;col<16;col++){
+      var idx=base+col;
+      if(idx<orig.length){var b=orig[idx];hex+=b.toString(16).toUpperCase().padStart(2,'0')+' ';asc+=(b>=0x20&&b<=0x7e)?String.fromCharCode(b):'.';}
+      else{hex+='   ';asc+=' ';}
+    }
+    var padded=hex.trimRight();while(padded.length<47)padded+=' ';
+    lines+='0x'+base.toString(16).toUpperCase().padStart(4,'0')+'  '+padded+'  |'+asc+'|\n';
+  }
+  out.textContent=lines;out.style.display='block';
 }
 
 /* ---- RESET ---- */
-function resetAll() {
-  if (!orig) return;
-  populateFields();
-  readCGB(); readDMG();
-  buildCGBUI(); buildDMGUI();
-  document.getElementById('t-initmsg').checked = true;
-  document.getElementById('dl-area').style.display = 'none';
+function resetAll(){
+  if(!orig)return;
+  populateFields();readCGB();readDMG();
+  buildCGBUI();buildDMGUI();
+  document.getElementById('t-initmsg').checked=true;
+  document.getElementById('dl-area').style.display='none';
+  updateStats();doSearch('');
+  document.getElementById('search-inp').value='';
+  document.getElementById('search-count').textContent='';
 }
 
-function resetToFile() {
-  orig = null;
-  document.getElementById('editor-panel').style.display = 'none';
-  document.getElementById('rominfo').style.display = 'none';
-  document.getElementById('upload-panel').style.display = 'block';
+function resetToFile(){
+  orig=null;origStrings={};
+  document.getElementById('editor-panel').style.display='none';
+  document.getElementById('rominfo').style.display='none';
+  document.getElementById('upload-panel').style.display='block';
+  document.getElementById('dl-area').style.display='none';
 }
 
 /* ---- TABS ---- */
-function switchTab(name) {
-  var tabs = document.querySelectorAll('.tab-btn');
-  var names = ['colors','menus','cheats','saves','about','system','boot','advanced'];
-  tabs.forEach(function(t,i){ t.className = 'tab-btn' + (names[i]===name?' active':''); });
-  document.querySelectorAll('.tab-panel').forEach(function(p){
-    p.className = 'tab-panel' + (p.id==='tab-'+name?' active':'');
-  });
-  if (name==='colors') updatePreview();
+function switchTab(name){
+  var names=['colors','menus','cheats','saves','about','system','boot','advanced'];
+  document.querySelectorAll('.tab-btn').forEach(function(t,i){t.className='tab-btn'+(names[i]===name?' active':'');});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.className='tab-panel'+(p.id==='tab-'+name?' active':'');});
+  if(name==='colors')updatePreview();
 }
+
+/* ---- KEYBOARD ---- */
+document.addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&e.key==='b'){
+    e.preventDefault();
+    if(orig)buildROM();
+  }
+  if(e.key==='Escape'){closeModal();}
+});
 
 /* ---- HELPERS ---- */
-function showSt(id, cls, msg) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.className = 'status-msg status-' + cls;
-  el.textContent = msg;
-  el.style.display = 'block';
-}
-function sv(id, text)  { var el=document.getElementById(id); if(el) el.textContent=text; }
-function sv2(id, val)  { var el=document.getElementById(id); if(el) el.value=val; }
-function gv(id)        { var el=document.getElementById(id); return el?el.value:''; }
-function esc(s)        { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function showSt(id,cls,msg){var el=document.getElementById(id);if(!el)return;el.className='status-msg st-'+cls;el.textContent=msg;el.style.display='block';}
+function sv(id,t){var el=document.getElementById(id);if(el)el.textContent=t;}
+function sv2(id,v){var el=document.getElementById(id);if(el)el.value=v;}
+function gv(id){var el=document.getElementById(id);return el?el.value:'';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function rgb555ToHex(lo, hi) {
+function rgb555ToHex(lo,hi){
   var w=lo|(hi<<8);
   var r=((w&0x1F)<<3)|((w&0x1F)>>2);
   var g=(((w>>5)&0x1F)<<3)|(((w>>5)&0x1F)>>2);
   var b=(((w>>10)&0x1F)<<3)|(((w>>10)&0x1F)>>2);
   return '#'+[r,g,b].map(function(x){return x.toString(16).padStart(2,'0');}).join('');
 }
-
-function hexToRgb555(hex) {
+function hexToRgb555(hex){
   var r=parseInt(hex.slice(1,3),16);
   var g=parseInt(hex.slice(3,5),16);
   var b=parseInt(hex.slice(5,7),16);
   var w=(Math.round(r/8)&0x1F)|((Math.round(g/8)&0x1F)<<5)|((Math.round(b/8)&0x1F)<<10);
   return [w&0xFF,(w>>8)&0xFF];
 }
-
-function toB64(bytes) {
-  var s='';
-  for (var i=0;i<bytes.length;i++) s+=String.fromCharCode(bytes[i]);
-  return btoa(s);
-}
+function toB64(bytes){var s='';for(var i=0;i<bytes.length;i++)s+=String.fromCharCode(bytes[i]);return btoa(s);}
 
 /* ---- INIT ---- */
 buildUI();
