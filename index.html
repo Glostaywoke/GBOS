@@ -173,6 +173,13 @@ body{font-family:Verdana,Arial,sans-serif;font-size:12px;background-color:#1e2d4
 .footer{background:#060e1c;border:2px outset #2a3a5a;padding:6px 10px;text-align:center;font-size:10px;color:#3d5888;margin-top:6px}
 .footer a{color:#6688aa}
 .footer a:hover{color:#fff}
+
+/* FONT EDITOR */
+#font-charset span{display:inline-block;width:14px;height:14px;line-height:14px;text-align:center;margin:1px;cursor:pointer;border:1px solid transparent}
+#font-charset span:hover{background:#c0d0ee;border-color:#5577aa}
+#font-charset span.font-sel{background:#1a3a6a;color:#fff;border-color:#1a3a6a}
+#font-charset span.font-dirty{border-color:#cc8800;background:#fff8cc}
+#font-charset span.font-dirty.font-sel{background:#884400;color:#fff;border-color:#884400}
 </style>
 </head>
 <body>
@@ -338,6 +345,7 @@ body{font-family:Verdana,Arial,sans-serif;font-size:12px;background-color:#1e2d4
           <button class="tab-btn" onclick="switchTab('system')"><span class="changed-dot" id="dot-system"></span>System</button>
           <button class="tab-btn" onclick="switchTab('boot')"><span class="changed-dot" id="dot-boot"></span>Boot</button>
           <button class="tab-btn" onclick="switchTab('advanced')">Advanced</button>
+          <button class="tab-btn" onclick="switchTab('font')"><span class="changed-dot" id="dot-font"></span>Font Editor</button>
         </div>
 
         <!-- COLORS -->
@@ -477,6 +485,54 @@ body{font-family:Verdana,Arial,sans-serif;font-size:12px;background-color:#1e2d4
             <td><button class="btn-sec" onclick="hexView()">View</button></td>
           </tr></table>
           <div class="hex-out" id="hv-out"></div>
+        </div>
+        <!-- FONT EDITOR -->
+        <div class="tab-panel" id="tab-font">
+          <div class="sec-head">Glyph Editor &mdash; 8&times;8 Font</div>
+          <p style="font-size:11px;color:#2a3a5a;margin-bottom:8px">
+            The GBOS font lives at ROM <tt>0x7D00</tt>&ndash;<tt>0x7FFF</tt>: 96 glyphs, ASCII 0x20 (space) through 0x7F.
+            Each glyph is a monochrome 8&times;8 pixel grid stored as 8 bytes. Click or drag pixels to toggle.
+            Only color&nbsp;0 (background) and color&nbsp;1 (text) are used &mdash; the font is 1-bit.
+          </p>
+          <table cellspacing="0" cellpadding="0" width="100%"><tr valign="top">
+            <td style="width:300px;padding-right:14px">
+              <div class="sec-head">Select Glyph</div>
+              <div id="font-charset" style="font-family:'Courier New',monospace;font-size:12px;line-height:1;margin-bottom:8px;background:#fff;border:2px inset #8899bb;padding:5px;cursor:pointer"></div>
+              <div style="font-size:11px;color:#2a3a5a;margin-bottom:6px">Selected: <strong id="font-sel-label">A (0x41)</strong></div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
+                <button class="btn-sec" onclick="fontClear()">Clear</button>
+                <button class="btn-sec" onclick="fontFill()">Fill</button>
+                <button class="btn-sec" onclick="fontFlipH()">Flip H</button>
+                <button class="btn-sec" onclick="fontFlipV()">Flip V</button>
+                <button class="btn-sec" onclick="fontShift('U')">&uarr;</button>
+                <button class="btn-sec" onclick="fontShift('D')">&darr;</button>
+                <button class="btn-sec" onclick="fontShift('L')">&larr;</button>
+                <button class="btn-sec" onclick="fontShift('R')">&rarr;</button>
+              </div>
+              <button class="btn-sec" onclick="fontRevertGlyph()">Revert glyph to original</button>
+              <div style="margin-top:8px;font-size:11px;color:#5566aa">
+                <strong id="font-changed-count">0</strong> glyphs modified from original ROM
+              </div>
+              <div style="margin-top:10px">
+                <div class="sec-head">In context</div>
+                <div id="font-context-preview" style="font-family:'Courier New',monospace;font-size:11px;background:#eaf0fc;border:2px inset #8899bb;padding:5px 7px;line-height:1.7;color:#334466"></div>
+              </div>
+              <div style="margin-top:8px;font-size:10px;color:#5566aa">
+                Raw bytes: <span id="font-raw-bytes" style="font-family:'Courier New',monospace;color:#334466;word-break:break-all"></span>
+              </div>
+            </td>
+            <td valign="top">
+              <div class="sec-head">Edit Pixels <span style="font-size:10px;font-weight:normal;color:#7788aa">&mdash; click or drag to paint</span></div>
+              <canvas id="font-canvas" width="256" height="256" style="border:2px inset #8899bb;cursor:crosshair;display:block;image-rendering:pixelated"></canvas>
+            </td>
+            <td valign="top" style="padding-left:14px;width:120px">
+              <div class="sec-head">Preview</div>
+              <div style="font-size:11px;color:#2a3a5a;margin-bottom:3px">At 1:1 scale:</div>
+              <canvas id="font-preview-canvas" width="96" height="96" style="border:2px inset #8899bb;display:block;image-rendering:pixelated;margin-bottom:10px"></canvas>
+              <div style="font-size:11px;color:#2a3a5a;margin-bottom:3px">2x scale:</div>
+              <canvas id="font-preview-2x" width="96" height="96" style="border:2px inset #8899bb;display:block;image-rendering:pixelated"></canvas>
+            </td>
+          </tr></table>
         </div>
 
       </div>
@@ -925,6 +981,7 @@ function buildThemes(){
 }
 
 function updatePreview(){
+  if(document.getElementById('tab-font') && document.getElementById('tab-font').className.indexOf('active')!==-1) renderFontCanvas();
   var scr=document.getElementById('gb-preview');if(!scr)return;
   var bg=cgbCols[0],fg=cgbCols[1],sel=cgbCols[2],brd=cgbCols[3];
   scr.style.background=bg;
@@ -962,6 +1019,7 @@ function loadFile(f){
     document.getElementById('editor-panel').style.display='block';
     document.getElementById('stat-size').textContent=(orig.length/1024)+'KB';
     updateStats();
+    initFontEditor();
   };
   r.readAsArrayBuffer(f);
 }
@@ -1165,7 +1223,7 @@ function resetToFile(){
 
 /* ---- TABS ---- */
 function switchTab(name){
-  var names=['colors','menus','cheats','saves','about','system','boot','advanced'];
+  var names=['colors','menus','cheats','saves','about','system','boot','advanced','font'];
   document.querySelectorAll('.tab-btn').forEach(function(t,i){t.className='tab-btn'+(names[i]===name?' active':'');});
   document.querySelectorAll('.tab-panel').forEach(function(p){p.className='tab-panel'+(p.id==='tab-'+name?' active':'');});
   if(name==='colors')updatePreview();
@@ -1202,6 +1260,215 @@ function hexToRgb555(hex){
   return [w&0xFF,(w>>8)&0xFF];
 }
 function toB64(bytes){var s='';for(var i=0;i<bytes.length;i++)s+=String.fromCharCode(bytes[i]);return btoa(s);}
+
+
+/* ---- FONT EDITOR ---- */
+var FONT_ADDR = 0x7D00;
+var FONT_GLYPH_BYTES = 8;
+var FONT_COUNT = 96;
+var fontSelected = 65; // 'A'
+var fontPainting = false;
+var fontPaintValue = 1;
+var origFontBytes = null; // set on ROM load
+
+function initFontEditor() {
+  origFontBytes = orig.slice(FONT_ADDR, FONT_ADDR + FONT_COUNT * FONT_GLYPH_BYTES);
+  buildCharset();
+  selectGlyph(65);
+  wireFontCanvas();
+}
+
+function buildCharset() {
+  var cont = document.getElementById('font-charset');
+  cont.innerHTML = '';
+  for (var i = 0; i < FONT_COUNT; i++) {
+    var code = i + 0x20;
+    var ch = code >= 0x20 && code <= 0x7e ? String.fromCharCode(code) : '?';
+    var sp = document.createElement('span');
+    sp.textContent = ch === ' ' ? String.fromCharCode(0xB7) : ch;
+    sp.setAttribute('data-code', code);
+    sp.title = code + ' (0x' + code.toString(16).toUpperCase() + ') ' + (ch === ' ' ? 'space' : ch);
+    sp.onclick = (function(c){ return function(){ selectGlyph(c); }; })(code);
+    cont.appendChild(sp);
+    if ((i + 1) % 16 === 0) cont.appendChild(document.createElement('br'));
+  }
+}
+
+function updateCharsetDots() {
+  if (!origFontBytes) return;
+  var count = 0;
+  for (var i = 0; i < FONT_COUNT; i++) {
+    var code = i + 0x20;
+    var romOff = i * FONT_GLYPH_BYTES;
+    var dirty = false;
+    for (var b = 0; b < FONT_GLYPH_BYTES; b++) {
+      if (orig[FONT_ADDR + romOff + b] !== origFontBytes[romOff + b]) { dirty = true; break; }
+    }
+    var sp = document.querySelector('#font-charset span[data-code="' + code + '"]');
+    if (sp) {
+      sp.classList.toggle('font-dirty', dirty);
+      sp.classList.toggle('font-sel', code === fontSelected);
+    }
+    if (dirty) count++;
+  }
+  var el = document.getElementById('font-changed-count');
+  if (el) el.textContent = count;
+  var dot = document.getElementById('dot-font');
+  if (dot) dot.className = 'changed-dot' + (count > 0 ? ' on' : '');
+  updateStats();
+}
+
+function selectGlyph(code) {
+  fontSelected = code;
+  sv('font-sel-label', (code >= 0x20 && code <= 0x7e ? String.fromCharCode(code) : '?') + ' (0x' + code.toString(16).toUpperCase() + ')');
+  updateCharsetDots();
+  renderFontCanvas();
+  updateRawBytes();
+  updateContextPreview();
+}
+
+function getGlyphBytes(code) {
+  var off = FONT_ADDR + (code - 0x20) * FONT_GLYPH_BYTES;
+  return Array.from(orig.slice(off, off + FONT_GLYPH_BYTES));
+}
+
+function setGlyphBytes(code, bytes) {
+  var off = FONT_ADDR + (code - 0x20) * FONT_GLYPH_BYTES;
+  for (var i = 0; i < FONT_GLYPH_BYTES; i++) orig[off + i] = bytes[i];
+}
+
+function getPixel(bytes, row, col) {
+  return (bytes[row] >> (7 - col)) & 1;
+}
+
+function setPixel(bytes, row, col, val) {
+  if (val) bytes[row] |= (1 << (7 - col));
+  else bytes[row] &= ~(1 << (7 - col));
+  return bytes;
+}
+
+function renderFontCanvas() {
+  var canvas = document.getElementById('font-canvas');
+  var ctx = canvas.getContext('2d');
+  var bytes = getGlyphBytes(fontSelected);
+  var scale = 32; // 8*32=256px canvas
+  var bg = cgbCols[0] || '#f8f8f8';
+  var fg = cgbCols[1] || '#000000';
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, 256, 256);
+  for (var r = 0; r < 8; r++) {
+    for (var c = 0; c < 8; c++) {
+      ctx.fillStyle = getPixel(bytes, r, c) ? fg : bg;
+      ctx.fillRect(c * scale, r * scale, scale, scale);
+      ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+      ctx.strokeRect(c * scale + 0.5, r * scale + 0.5, scale - 1, scale - 1);
+    }
+  }
+  // preview canvas
+  var pc2x = document.getElementById('font-preview-2x');
+  if(pc2x){var p2ctx=pc2x.getContext('2d');p2ctx.fillStyle=bg;p2ctx.fillRect(0,0,96,96);var ps2=8,ox2=16,oy2=16;for(var r2=0;r2<8;r2++){for(var c2=0;c2<8;c2++){p2ctx.fillStyle=getPixel(bytes,r2,c2)?fg:bg;p2ctx.fillRect(ox2+c2*ps2,oy2+r2*ps2,ps2,ps2);}}}
+  var pc = document.getElementById('font-preview-canvas');
+  var pctx = pc.getContext('2d');
+  pctx.fillStyle = bg;
+  pctx.fillRect(0, 0, 120, 120);
+  var ps = 12; // 8*12=96, centered
+  var ox = 12, oy = 12;
+  for (var r = 0; r < 8; r++) {
+    for (var c = 0; c < 8; c++) {
+      pctx.fillStyle = getPixel(bytes, r, c) ? fg : bg;
+      pctx.fillRect(ox + c * ps, oy + r * ps, ps, ps);
+    }
+  }
+}
+
+function updateRawBytes() {
+  var bytes = getGlyphBytes(fontSelected);
+  var el = document.getElementById('font-raw-bytes');
+  if (el) el.textContent = bytes.map(function(b){ return '0x' + b.toString(16).toUpperCase().padStart(2,'0'); }).join(' ');
+}
+
+function updateContextPreview() {
+  var el = document.getElementById('font-context-preview');
+  if (!el) return;
+  var ch = fontSelected >= 0x20 && fontSelected <= 0x7e ? String.fromCharCode(fontSelected) : '?';
+  el.innerHTML =
+    esc('Main Menu') + '<br>' +
+    esc('> Load And Start') + '<br>' +
+    esc('  Options') + '<br>' +
+    esc('  Cheats') + '<br>' +
+    '<br>' +
+    esc('Changed: ' + ch + ' char');
+}
+
+function wireFontCanvas() {
+  var canvas = document.getElementById('font-canvas');
+  if (!canvas) return;
+  canvas.addEventListener('mousedown', function(e) {
+    fontPainting = true;
+    var p = canvasPixel(canvas, e);
+    var bytes = getGlyphBytes(fontSelected);
+    fontPaintValue = 1 - getPixel(bytes, p.r, p.c);
+    setPixel(bytes, p.r, p.c, fontPaintValue);
+    setGlyphBytes(fontSelected, bytes);
+    renderFontCanvas(); updateRawBytes(); updateCharsetDots();
+  });
+  canvas.addEventListener('mousemove', function(e) {
+    if (!fontPainting) return;
+    var p = canvasPixel(canvas, e);
+    var bytes = getGlyphBytes(fontSelected);
+    setPixel(bytes, p.r, p.c, fontPaintValue);
+    setGlyphBytes(fontSelected, bytes);
+    renderFontCanvas(); updateRawBytes(); updateCharsetDots();
+  });
+  document.addEventListener('mouseup', function() { fontPainting = false; });
+}
+
+function canvasPixel(canvas, e) {
+  var rect = canvas.getBoundingClientRect();
+  var x = e.clientX - rect.left;
+  var y = e.clientY - rect.top;
+  var scale = canvas.width / rect.width;
+  var col = Math.floor((x * scale) / 32);
+  var row = Math.floor((y * scale) / 32);
+  return { r: Math.max(0, Math.min(7, row)), c: Math.max(0, Math.min(7, col)) };
+}
+
+function fontClear() { setGlyphBytes(fontSelected, [0,0,0,0,0,0,0,0]); renderFontCanvas(); updateRawBytes(); updateCharsetDots(); }
+function fontFill()  { setGlyphBytes(fontSelected, [255,255,255,255,255,255,255,255]); renderFontCanvas(); updateRawBytes(); updateCharsetDots(); }
+
+function fontFlipH() {
+  var bytes = getGlyphBytes(fontSelected);
+  bytes = bytes.map(function(b) {
+    var r = 0;
+    for (var i = 0; i < 8; i++) if ((b >> i) & 1) r |= (1 << (7 - i));
+    return r;
+  });
+  setGlyphBytes(fontSelected, bytes); renderFontCanvas(); updateRawBytes(); updateCharsetDots();
+}
+
+function fontFlipV() {
+  var bytes = getGlyphBytes(fontSelected);
+  setGlyphBytes(fontSelected, bytes.slice().reverse());
+  renderFontCanvas(); updateRawBytes(); updateCharsetDots();
+}
+
+function fontShift(dir) {
+  var bytes = getGlyphBytes(fontSelected);
+  if (dir === 'U') { bytes.push(bytes.shift()); }
+  else if (dir === 'D') { bytes.unshift(bytes.pop()); }
+  else if (dir === 'L') { bytes = bytes.map(function(b){ return ((b << 1) | (b >> 7)) & 0xFF; }); }
+  else if (dir === 'R') { bytes = bytes.map(function(b){ return ((b >> 1) | (b << 7)) & 0xFF; }); }
+  setGlyphBytes(fontSelected, bytes); renderFontCanvas(); updateRawBytes(); updateCharsetDots();
+}
+
+function fontRevertGlyph() {
+  if (!origFontBytes) return;
+  var idx = fontSelected - 0x20;
+  var off = FONT_ADDR + idx * FONT_GLYPH_BYTES;
+  var origOff = idx * FONT_GLYPH_BYTES;
+  for (var i = 0; i < FONT_GLYPH_BYTES; i++) orig[off + i] = origFontBytes[origOff + i];
+  renderFontCanvas(); updateRawBytes(); updateCharsetDots();
+}
 
 /* ---- INIT ---- */
 buildUI();
